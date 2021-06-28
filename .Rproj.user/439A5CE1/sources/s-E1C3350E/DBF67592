@@ -1,22 +1,22 @@
 {
     "collab_server" : "",
     "contents" : "",
-    "created" : 1624894310638.000,
+    "created" : 1624901075571.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
     "hash" : "0",
-    "id" : "637A780D",
+    "id" : "DBF67592",
     "lastKnownWriteTime" : 1624901066,
     "last_content_update" : 1624901066,
-    "path" : "~/Documents/GitHub/LRLoop/DESCRIPTION",
-    "project_path" : "DESCRIPTION",
+    "path" : "~/Documents/GitHub/LRLoop/LICENSE",
+    "project_path" : "LICENSE",
     "properties" : {
-        "cursorPosition" : "10,8",
+        "cursorPosition" : "2,0",
         "scrollLine" : "0"
     },
-    "relative_order" : 1,
+    "relative_order" : 4,
     "source_on_save" : false,
     "source_window" : "",
-    "type" : "dcf"
+    "type" : "text"
 }

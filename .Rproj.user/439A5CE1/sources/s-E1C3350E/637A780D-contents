@@ -5,7 +5,7 @@ Version: 0.1.0
 Author: Ying Xin <yingxinac@gmail.com>
 Maintainer: Pin Lyu <pinlyu30@gmail.com>
 Description: In this work, we propose a new method, ligand-receptor loop (LRLoop), which is based on the assumption that cell-cell communications are likely to form closed feedback loops. We assessed our methods in both bulk and single-cell RNA-seq datasets. Our method outperformed other existing methods. We also applied our method to a dataset for retinal development and predicted the cell-cell communications during the early stages of retinal development. 
-License: MIT
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
