@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1624897416843.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "1504D075",
+    "lastKnownWriteTime" : 1624899163,
+    "last_content_update" : 1624899163007,
+    "path" : "~/Documents/GitHub/LRLoop/R/get_DEG.R",
+    "project_path" : "R/get_DEG.R",
+    "properties" : {
+        "cursorPosition" : "42,0",
+        "scrollLine" : "10"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
