@@ -132,10 +132,13 @@ DEGinfo_ct2$DEgenes = DEGinfo_ct2$DEgenes[sample(length(DEGinfo_ct2$DEgenes), 0.
 ```
 
 ### Prepare a list of some basic data info
+``` r
 Basics = PrepareBasics(ct1obj, ct2obj, min_pct = 0.1, geneset_ct1 = DEGinfo_ct1$DEgenes, geneset_ct2 = DEGinfo_ct2$DEgenes,
                        lr_network, 
                        ligand_target_matrix_ct1_to_ct2, receptor_target_matrix_ct1_to_ct2, ligand_target_matrix_ct2_to_ct1, receptor_target_matrix_ct2_to_ct1,
                        discrete_error_rate = 0.1, discrete_cutoff_method = "distribution", discrete_fdr_method = "global")
+```                  
+                       
  Here in PrepareBasics:
  - min_pct: Cutoff value on the detection rate of genes in each cell type, each condition, for the identification of "expressed" genes. A number between 0 and 1. For example, min_pct = 0.1 means that for each cell type and condition, the genes that are detected in at least 10 percent of the cells are considered "expressed".
 - geneset_ct1, geneset_ct2: Vectors of gene symbols considered as the target gene set of interest (for example, the differentailly expressed genes) in cell type1/cell type2 for the calculation of the nichenetr based ligand/receptor activity scores.  
@@ -150,3 +153,38 @@ names(Basics)
 [9] "lr_expr_ct1_to_ct2"                    "lr_expr_ct2_to_ct1"                    "ligand_activities_matrix_ct1_to_ct2"   "receptor_activities_matrix_ct1_to_ct2"
 [13] "ligand_activities_matrix_ct2_to_ct1"   "receptor_activities_matrix_ct2_to_ct1" "myLRL" 
 ```
+
+
+
+### Get the LRloop network matrix
+
+``` r
+LRloop_network = Basics$myLRL$`R1->L2_R2->L1`
+
+#> head(LRloop_network)
+#     L2      R2       L1      R1      
+#[1,] "Tgfb2" "Tgfbr1" "Tgfb1" "Itgav" 
+#[2,] "Tgfb2" "Tgfbr2" "Psap"  "Gpr37" 
+#[3,] "Tgfb2" "Tgfbr2" "Calr"  "Itgav" 
+#[4,] "Tgfb2" "Tgfbr2" "Mfng"  "Notch2"
+#[5,] "Cadm1" "Cadm1"  "Cadm1" "Cadm1" 
+#[6,] "Igf2"  "Igf1r"  "Apoe"  "Sorl1" 
+```
+
+(Optional) Calculate LRscores of the expressed L1R1 and L2R2 pairs (will be used as edge weights of Circos plots)
+Remark: Users can easily add or modify the score calculation methods in the function "LRscores"
+
+``` r
+overallaveexprm = log1p(mean(cbind(expm1(as.matrix(ct1obj@assays$RNA@data)), expm1(as.matrix(ct2obj@assays$RNA@data))))) # a scalar value used in the LRscore calculation when the method is set to 'scsigr' or individual_scale'
+
+#> overallaveexprm
+#[1] 0.3060127
+```
+
+Remark: If ct1obj and ct2obj are sub-objects taken from a big Seurat object, and one needs to investigate ligand-receptor interactions between multiple cell type pairs, to make the LRscores comparable across different cell type pairs, we should use the same scalar value for all calculations.
+
+For example, suppose the big Seurat object is seuratobj (data LogNormalized), one can calculate and save the following beforehand:
+``` r
+overallaveexprm = log1p(mean(expm1(as.matrix(seuratobj@assays$RNA@data))))
+```
+
