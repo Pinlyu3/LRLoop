@@ -11,6 +11,31 @@ LRLoop is a full-featured R package for analyzing LR-Loops from bulk & single-ce
 <img src="Figures/LRLoops1.png" width = "500" height = "400" alt="LRLoops" align=center />
 </div>
 
+<hr>
+
+# Quick Installation of LRLoop
+
+**First, install devtools (for installing GitHub packages) if it isn't already installed:**
+```{r}
+if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")
+```
+
+**Then, install nichenetr if it isn't already installed:**
+```{r}
+devtools::install_github("saeyslab/nichenetr")
+```
+
+**Then, install all of the LRLoop dependencies:**
+```{r}
+install.packages(c('tidyverse','Seurat','ggplot2','dplyr','circlize','igraph','RColorBrewer','writexl','pheatmap'))
+```
+
+**Then, install LRLoop:**
+```{r}
+devtools::install_github('https://github.com/Pinlyu3/LRLoop',force = TRUE)
+```
+
+<hr>
 
 
 
