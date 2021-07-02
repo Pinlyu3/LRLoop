@@ -105,21 +105,20 @@ DEGinfo_ct1 = get_DEG(seuratobj = ct1obj, idents_1 = conditions[2:9], idents_2 =
 DEGinfo_ct2 = get_DEG(seuratobj = ct2obj, idents_1 = conditions[2:9], idents_2 = conditions[1], 
                       only_pos = FALSE, min_pct = 0.1, logfc_threshold = 0.25, p_val_adj_threshold = 0.05, test_use = "wilcox")
                     
-                    #> names(DEGinfo_ct1)
-                    #[1] "DEG"     "DEgenes"
-                    #> names(DEGinfo_ct1$DEG)
-                    #[1] "mmNMDA03_vs_mmP60"   "mmNMDA06_vs_mmP60"   "mmNMDA12_vs_mmP60"   "mmNMDA24_vs_mmP60"   "mmNMDA36_vs_mmP60"   "mmNMDA48_vs_mmP60"   "mmNMDA48FI_vs_mmP60" "mmNMDA72_vs_mmP60"  
-                    #> head(DEGinfo_ct1$DEG$mmNMDA03_vs_mmP60)
-                    #             p_val avg_log2FC pct.1 pct.2    p_val_adj
-                    #Fth1  4.077072e-21   3.664240 1.000 0.793 1.138849e-16
-                    #Srgn  3.063184e-20   3.410460 0.969 0.103 8.556391e-16
-                    #Ftl1  2.086013e-18   2.617280 1.000 0.931 5.826861e-14
-                    #Hmox1 3.108638e-18   5.565917 0.862 0.052 8.683357e-14
-                    #Ccl3  2.758505e-17   4.892835 0.908 0.224 7.705331e-13
-                    #Id2   2.901389e-17   4.377565 0.815 0.034 8.104450e-13
-                    #> head(DEGinfo_ct1$DEgenes)
-                    #[1] "Fth1"  "Srgn"  "Ftl1"  "Hmox1" "Ccl3"  "Id2"  
-
+#> names(DEGinfo_ct1)
+#[1] "DEG"     "DEgenes"
+#> names(DEGinfo_ct1$DEG)
+#[1] "mmNMDA03_vs_mmP60"   "mmNMDA06_vs_mmP60"   "mmNMDA12_vs_mmP60"   "mmNMDA24_vs_mmP60"   "mmNMDA36_vs_mmP60"   "mmNMDA48_vs_mmP60"   "mmNMDA48FI_vs_mmP60" "mmNMDA72_vs_mmP60"  
+#> head(DEGinfo_ct1$DEG$mmNMDA03_vs_mmP60)
+#             p_val avg_log2FC pct.1 pct.2    p_val_adj
+#Fth1  4.077072e-21   3.664240 1.000 0.793 1.138849e-16
+#Srgn  3.063184e-20   3.410460 0.969 0.103 8.556391e-16
+#Ftl1  2.086013e-18   2.617280 1.000 0.931 5.826861e-14
+#Hmox1 3.108638e-18   5.565917 0.862 0.052 8.683357e-14
+#Ccl3  2.758505e-17   4.892835 0.908 0.224 7.705331e-13
+#Id2   2.901389e-17   4.377565 0.815 0.034 8.104450e-13
+#> head(DEGinfo_ct1$DEgenes)
+#[1] "Fth1"  "Srgn"  "Ftl1"  "Hmox1" "Ccl3"  "Id2"  
 ```
 
 
