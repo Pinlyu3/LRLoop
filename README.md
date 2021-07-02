@@ -30,12 +30,19 @@ devtools::install_github("saeyslab/nichenetr")
 install.packages(c('tidyverse','Seurat','ggplot2','dplyr','circlize','igraph','RColorBrewer','writexl','pheatmap'))
 ```
 
-**Then, install LRLoop:**
+**Lastly, install LRLoop:**
 ```{r}
 devtools::install_github('https://github.com/Pinlyu3/LRLoop',force = TRUE)
 ```
 
 <hr>
+
+
+# Issues using LRLoop?
+
+LRLoop is currently in __beta__. If you think you have found a bug, please [report an issue on Github](https://github.com/Pinlyu3/LRLoop/issues) with the __Bug Report__ form.
+
+
 
 
 
