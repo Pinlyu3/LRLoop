@@ -20,7 +20,7 @@ library(LRLoop)
 
 ## Step 1: prepair the ligand-receptor, signaling and gene regulatory networks
 
-### ligand-receptor network:
+### ligand-receptor pairs:
 
 ``` r
 lr_network_nichenet = readRDS("Networks/NicheNet_lr_network.rds") # The ligand-receptor network collected in NicheNet
