@@ -40,7 +40,10 @@ devtools::install_github('https://github.com/Pinlyu3/LRLoop',force = TRUE)
 # Learning to use LRLoop
 To learn how to use LRLoop, read the following vignettes explaining several types of analyses:
 
-- [Perform LRLoop analysis starting form a Seurat object](vignettes/ligand_activity_geneset.md)
+- [Perform LRLoop analysis starting form a Seurat object](vignettes/Main.md)
+
+- [Perform LRLoop analysis using custom GRNs](vignettes/Custom_GRNs.md)
+
 
 
 <hr>
