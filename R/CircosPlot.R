@@ -16,7 +16,7 @@
 #' @param width_different_receptor_cluster Gap width between different receptor clusters 
 #' @param cplotthresh A number. Only plot L-R edges in the circos plot with LRscore > cplotthresh
 #' @param cex Font size
-#' @import nichenetr tidyverse Seurat
+#' @import nichenetr tidyverse Seurat circlize igraph RColorBrewer writexl pheatmap
 #' @export
 
 

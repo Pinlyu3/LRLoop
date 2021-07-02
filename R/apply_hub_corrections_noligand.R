@@ -6,18 +6,15 @@
 #' @param gr_hub A number between 0 and 1. 0: no correction for hubiness; 1: maximal correction for hubiness.
 #' @return
 #'  A list of two hubiness-corrected weighted networks sig and gr (signaling network and gene regulatory network), in data frame/tibble with columns "from", "to" and "weight".
-#' @import nichenetr tidyverse Seurat
+#' @import nichenetr tidyverse Seurat dplyr
 #' @export
 
 
 apply_hub_corrections_noligand = function(weighted_networks,sig_hub,gr_hub) {
-  
   requireNamespace("dplyr")
-  
   # load in weighted networks
   signaling_network = weighted_networks$sig
   regulatory_network = weighted_networks$gr
-  
   # apply hub correction signaling network
   if (sig_hub > 0){
     signaling_network = signaling_network %>% group_by(to) %>% count(to) %>% ungroup() %>% 

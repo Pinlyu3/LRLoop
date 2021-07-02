@@ -1,22 +1,14 @@
 #' Calculate the LRscore of an L-R pair
 #'
 #' @name LRscore
-#'
-#' @param L A number, the ligand value used for the calculation of the LRscore
-#'
-#' @param R A number, the receptor value used for the calculation of the LRscore
-#'
-#' @param m A number, plays the role of a scalar in the calculation of the LRscore when the calculation method is set to 'scsigr' or individual_scale'
-#'
-#' @param method The method of calculating the LRscore, available options are 'mean', 'individual_scale', 'individual_scale_exp', 'product', 'bias_receptor' and 'scsigr'. The method 'scsigr' was introduced in SingleCellSignalR. Reference: Simon Cabello-Aguilar, Mélissa Alame, Fabien Kon-Sun-Tack, Caroline Fau, Matthieu Lacroix, Jacques Colinge. Nucleic Acids Research, Volume 48, Issue 10, 04 June 2020, Page e55, https://doi.org/10.1093/nar/gkaa183
-#'  
-#' @return The LRscore of an L-R pair
-#'  
-#' @import nichenetr tidyverse Seurat ggplot2
+#' @param L the ligand value used for the calculation of the LRscore
+#' @param R the receptor value used for the calculation of the LRscore
+#' @param m plays the role of a scalar in the calculation of the LRscore when the calculation method is set to 'scsigr' or individual_scale'
+#' @param method The method of calculating the LRscore, available options are 'mean', 'individual_scale', 'individual_scale_exp', 'product', 'bias_receptor' and 'scsigr'. The method 'scsigr' was introduced in SingleCellSignalR.
+#' @return
+#'  The LRscore of an L-R pair
+#' @import nichenetr tidyverse Seurat
 #' @export
-
-
-
 
 LRscore = function(L, R, m, method) {
   if (method == 'scsigr') {

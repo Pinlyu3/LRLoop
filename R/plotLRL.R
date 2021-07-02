@@ -11,7 +11,7 @@
 #' @param edgecolor Edge color
 #' @param pheatmapcolor Value of pheatmap variable 'color'
 #' @param pheatmap_dist Value of pheatmap variables 'clustering_distance_rows' and 'clustering_distance_cols'. e.g. 'correlation', 'euclidean'
-#' @import nichenetr tidyverse Seurat
+#' @import nichenetr tidyverse Seurat circlize igraph RColorBrewer writexl pheatmap
 #' @export
 
 
