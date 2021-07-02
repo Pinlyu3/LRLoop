@@ -12,5 +12,11 @@ Imports:
     nichenetr,
     tidyverse,
     Seurat,
-    ggplot2
+    ggplot2,
+    dplyr,
+    circlize,
+    igraph,
+    RColorBrewer,
+    writexl,
+    pheatmap
 RoxygenNote: 7.1.1
