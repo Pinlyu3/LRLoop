@@ -5,7 +5,7 @@
 library(LRLoop)
 ```
 ## load data:
-### Required inputs:
+Required inputs:
 -  Seurat object (data LogNormalized) of celltype1 (ct1) and celltype2 (ct2) "ct1obj" and "ct2obj":
 - a) Their corresponding expression data "ct1obj@assays$RNA@data" and "ct2obj@assays$RNA@data" should have the same rows (genes in rows); 
 - b) Their metadata "ct1obj@meta.data" and "ct2obj@meta.data" both have the column "Condition" with the same set of condtions of interest.
@@ -87,14 +87,14 @@ load("ExampleData/receptor_target_matrix_ct2_to_ct1.RData")
 ``` 
 
 ## LRLoop analysis:
-### Identify the conditions of interest 
+Identify the conditions of interest 
 ``` r
 conditions = unique(ct1obj@meta.data[,'Condition'])
 
 #> conditions
 #[1] "mmP60"      "mmNMDA03"   "mmNMDA06"   "mmNMDA12"   "mmNMDA24"   "mmNMDA36"   "mmNMDA48"   "mmNMDA48FI" "mmNMDA72"  
 ```
-### Differential expression analysis for all condition pairs of interest (if length(conditions) >= 2)
+Differential expression analysis for all condition pairs of interest (if length(conditions) >= 2)
  Remark: Users can use other methods to find differentially expressed genes of interest, just note that the results of this step should be two lists "DEGinfo_ct1" and "DEGinfo_ct2" in which:
  "DEGinfo_ct1$DEG" and "DEGinfo_ct2$DEG" are lists where each element of them stores the DEA results for one pair of conditions of interest, which is a matrix with genes in rows and at least two colomns "ave_log2FC" and "p_val_adj";  
  "DEGinfo_ct1$DEgenes" and "DEGinfo_ct2$DEgenes" are vectors of differentially expressed gene symbols (the union of the DEGs resulted from all pairs of conditions of interest)
@@ -131,7 +131,7 @@ DEGinfo_ct1$DEgenes = DEGinfo_ct1$DEgenes[sample(length(DEGinfo_ct1$DEgenes), 0.
 DEGinfo_ct2$DEgenes = DEGinfo_ct2$DEgenes[sample(length(DEGinfo_ct2$DEgenes), 0.2*length(DEGinfo_ct2$DEgenes))]
 ```
 
-### Prepare a list of some basic data info
+Prepare a list of some basic data info
 ``` r
 Basics = PrepareBasics(ct1obj, ct2obj, min_pct = 0.1, geneset_ct1 = DEGinfo_ct1$DEgenes, geneset_ct2 = DEGinfo_ct2$DEgenes,
                        lr_network, 
@@ -156,7 +156,7 @@ names(Basics)
 
 
 
-### Get the LRloop network matrix
+Get the LRloop network matrix
 
 ``` r
 LRloop_network = Basics$myLRL$`R1->L2_R2->L1`
@@ -224,7 +224,7 @@ LRscore_ct2_to_ct1 = get_LRscores(lr_expr = Basics$lr_expr_ct2_to_ct1$bind, cond
 ```
 
 
-### Cluster the genes in ct1, ct2, and expressed L1-R1 and L2-R2 pairs (will be used to color the nodes and edges of Circos plots). These are also required inputs of the function "LRL_info_collection". 
+Cluster the genes in ct1, ct2, and expressed L1-R1 and L2-R2 pairs (will be used to color the nodes and edges of Circos plots). These are also required inputs of the function "LRL_info_collection". 
 genes_cluster_ct1, genes_cluster_ct2: Vector of cluster-names (integers 0,1,2,...) with the name of each element the corresponding gene symbol.
 Remark: The clusters are denoted by consecutive integers from 0.  Users can cluster the genes differently as preferred.
 Here as an example, the differentially expressed genes in each cell type were pre-clustered by k-means clustering and the none-DEGs belong to cluster 0.
@@ -296,7 +296,7 @@ writeLRL(LRloop_info, filedir1)
 ``` 
 
 
-### (Optional) Filter the LRloops, then collect and write the corresponding LRloop info again.
+(Optional) Filter the LRloops, then collect and write the corresponding LRloop info again.
 Filter by user preferred LRloop_info based conditions: please check the .csv files from the last step with filenames like "LRloop ***.csv" or "L1R1L2R2 ***.csv" for filtering options:
 - The names of the list LRloop_info and the .csv files created from the last step are consistent.
 - LRloop expression.csv: The LRloop network, together with the average expression values of each gene and the detection rates of each gene in the corresponding cell types and each condition
