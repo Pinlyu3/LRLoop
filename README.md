@@ -8,7 +8,7 @@ LRLoop is a full-featured R package for analyzing LR-Loops from bulk & single-ce
 <hr>
 
 <div  align="center">
-<img src="Figures/LRLoops.png" width = "500" height = "400" alt="LRLoops" align=center />
+<img src="Figures/LRLoops1.png" width = "500" height = "400" alt="LRLoops" align=center />
 </div>
 
 
