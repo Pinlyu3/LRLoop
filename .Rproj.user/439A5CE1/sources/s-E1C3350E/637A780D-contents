@@ -18,5 +18,7 @@ Imports:
     igraph,
     RColorBrewer,
     writexl,
-    pheatmap
+    pheatmap,
+    stats,
+    utils
 RoxygenNote: 7.1.1

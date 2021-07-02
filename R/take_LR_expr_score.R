@@ -1,7 +1,7 @@
 #' Create a dataframe for the expr_scores of L1R1 or L2R2 pairs across all conditions stored in the list resulted from the function 'LRL_info_collection'
 #' @name take_LR_expr_score
-#' @param LRloop_info: A list resulted from the function 'LRL_info_collection' 
-#' @param LRpair: 'L1R1' or "L2R2'
+#' @param LRloop_info A list resulted from the function 'LRL_info_collection' 
+#' @param LRpair 'L1R1' or "L2R2'
 #' @import nichenetr tidyverse Seurat
 #' @export
 

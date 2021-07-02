@@ -67,6 +67,8 @@ LRL_info_collection(
 
 \item{L1R1_cluster}{User defined ct1 to ct2/ct2 to ct1 ligand-receptor pair clustering vector (integers 0,1,2,...) with the name of each element the corresponding ligand-receptor gene symbols (in the form of L-R)}
 
+\item{L2R2_cluster}{User defined ct1 to ct2/ct2 to ct1 ligand-receptor pair clustering vector (integers 0,1,2,...) with the name of each element the corresponding ligand-receptor gene symbols (in the form of L-R)}
+
 \item{ligand_activities_matrix_ct1_to_ct2}{Ligand/receptor_activities_matrix_ct1_to_ct2 calculated by nichenetr's algorithm}
 
 \item{receptor_activities_matrix_ct1_to_ct2}{Ligand/receptor_activities_matrix_ct1_to_ct2 calculated by nichenetr's algorithm}
@@ -74,8 +76,6 @@ LRL_info_collection(
 \item{ligand_activities_matrix_ct2_to_ct1}{Ligand/receptor_activities_matrix_ct2_to_ct1 calculated by nichenetr's algorithm}
 
 \item{receptor_activities_matrix_ct2_to_ct1}{Ligand/receptor_activities_matrix_ct2_to_ct1 calculated by nichenetr's algorithm}
-
-\item{L1R2_cluster}{User defined ct1 to ct2/ct2 to ct1 ligand-receptor pair clustering vector (integers 0,1,2,...) with the name of each element the corresponding ligand-receptor gene symbols (in the form of L-R)}
 }
 \value{
 LRL_info_collection: a list of matrices:

@@ -7,7 +7,7 @@
 print_LRL_Score_options(LRloop_info)
 }
 \arguments{
-\item{LRloop_info:}{The list of the LRloop_network info calculated by function "LRL_info_collection"}
+\item{LRloop_info}{The list of the LRloop_network info calculated by function "LRL_info_collection"}
 }
 \description{
 Print available options for the function "plotLRL" variable "WhichL1R1L2R2Score"

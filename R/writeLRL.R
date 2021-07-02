@@ -1,7 +1,7 @@
 #' Write the LRloop_info into .csv files
 #' @name writeLRL
-#' @param LRloop_info: The list of the LRloop_network info calculated by function "LRL_info_collection"
-#' @param filedir: Directory to save the files
+#' @param LRloop_info The list of the LRloop_network info calculated by function "LRL_info_collection"
+#' @param filedir Directory to save the files
 #' @import nichenetr tidyverse Seurat circlize igraph RColorBrewer writexl
 #' @export
 

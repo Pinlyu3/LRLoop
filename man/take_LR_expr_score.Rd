@@ -7,9 +7,9 @@
 take_LR_expr_score(LRloop_info, LRpair)
 }
 \arguments{
-\item{LRloop_info:}{A list resulted from the function 'LRL_info_collection'}
+\item{LRloop_info}{A list resulted from the function 'LRL_info_collection'}
 
-\item{LRpair:}{'L1R1' or "L2R2'}
+\item{LRpair}{'L1R1' or "L2R2'}
 }
 \description{
 Create a dataframe for the expr_scores of L1R1 or L2R2 pairs across all conditions stored in the list resulted from the function 'LRL_info_collection'

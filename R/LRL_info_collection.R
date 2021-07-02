@@ -11,7 +11,7 @@
 #' @param genes_cluster_ct1 User defined ct1/ct2 gene clustering vector (integers 0,1,2,...) with the name of each element the corresponding gene symbol 
 #' @param genes_cluster_ct2 User defined ct1/ct2 gene clustering vector (integers 0,1,2,...) with the name of each element the corresponding gene symbol 
 #' @param L1R1_cluster User defined ct1 to ct2/ct2 to ct1 ligand-receptor pair clustering vector (integers 0,1,2,...) with the name of each element the corresponding ligand-receptor gene symbols (in the form of L-R)
-#' @param L1R2_cluster User defined ct1 to ct2/ct2 to ct1 ligand-receptor pair clustering vector (integers 0,1,2,...) with the name of each element the corresponding ligand-receptor gene symbols (in the form of L-R)
+#' @param L2R2_cluster User defined ct1 to ct2/ct2 to ct1 ligand-receptor pair clustering vector (integers 0,1,2,...) with the name of each element the corresponding ligand-receptor gene symbols (in the form of L-R)
 #' @param valuse_ct1 Matrix of the values to be used in the calculation of LRscores and L1R1L2R2 LoopScores with genes in rows and conditions in columns corresponding to ct1/ct2.  
 #' @param valuse_ct2 Matrix of the values to be used in the calculation of LRscores and L1R1L2R2 LoopScores with genes in rows and conditions in columns corresponding to ct1/ct2.  
 #' @param scalar A number, plays the role of a scalar in the calculation of LRscores when LRscore_method is set to 'scsigr' or individual_scale'.
