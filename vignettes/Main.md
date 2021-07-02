@@ -121,4 +121,32 @@ DEGinfo_ct2 = get_DEG(seuratobj = ct2obj, idents_1 = conditions[2:9], idents_2 =
 #[1] "Fth1"  "Srgn"  "Ftl1"  "Hmox1" "Ccl3"  "Id2"  
 ```
 
+ If there is only one condition or DEA info is not desired, just create the lists DEGinfo_ct1 and DEGinfo_ct2 in the required formats as spot holders for other relevant functions that use them as variables. For example, one can create them by running:
+  ``` r
+DEGinfo_ct1 = get_DEG(seuratobj = ct1obj, idents_1 = conditions[1], idents_2 = conditions[1], 
+                      only_pos = FALSE, min_pct = 0, logfc_threshold = 0, p_val_adj_threshold = 1.1)
+DEGinfo_ct2 = get_DEG(seuratobj = ct2obj, idents_1 = conditions[1], idents_2 = conditions[1], 
+                      only_pos = FALSE, min_pct = 0, logfc_threshold = 0, p_val_adj_threshold = 1.1)
+DEGinfo_ct1$DEgenes = DEGinfo_ct1$DEgenes[sample(length(DEGinfo_ct1$DEgenes), 0.2*length(DEGinfo_ct1$DEgenes))]
+DEGinfo_ct2$DEgenes = DEGinfo_ct2$DEgenes[sample(length(DEGinfo_ct2$DEgenes), 0.2*length(DEGinfo_ct2$DEgenes))]
+```
 
+### Prepare a list of some basic data info
+Basics = PrepareBasics(ct1obj, ct2obj, min_pct = 0.1, geneset_ct1 = DEGinfo_ct1$DEgenes, geneset_ct2 = DEGinfo_ct2$DEgenes,
+                       lr_network, 
+                       ligand_target_matrix_ct1_to_ct2, receptor_target_matrix_ct1_to_ct2, ligand_target_matrix_ct2_to_ct1, receptor_target_matrix_ct2_to_ct1,
+                       discrete_error_rate = 0.1, discrete_cutoff_method = "distribution", discrete_fdr_method = "global")
+ Here in PrepareBasics:
+ - min_pct: Cutoff value on the detection rate of genes in each cell type, each condition, for the identification of "expressed" genes. A number between 0 and 1. For example, min_pct = 0.1 means that for each cell type and condition, the genes that are detected in at least 10 percent of the cells are considered "expressed".
+- geneset_ct1, geneset_ct2: Vectors of gene symbols considered as the target gene set of interest (for example, the differentailly expressed genes) in cell type1/cell type2 for the calculation of the nichenetr based ligand/receptor activity scores.  
+- discrete_error_rate: Value of the error_rate variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- FDR for cutoff_method "fdrtool" and "distribution"; number between 0 and 1 indicating which top fraction of target genes should be returned for cutoff_method "quantile".
+- discrete_cutoff_method: Value of the cutoff_method variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- Method to determine which genes can be considered as a target and which genes not, based on the regulatory probability scores. Possible options: "distribution", "fdrtool" and "quantile".
+- discrete_fdr_method: Value of the fdr_method variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- Only relevant when cutoff_method is "fdrtool". Possible options: "global" and "local"
+
+``` r
+names(Basics)
+[1] "ave_expr_ct1"                          "ave_expr_ct2"                          "pct_expr_ct1"                          "pct_expr_ct2"                         
+[5] "thresh_expr_ct1"                       "thresh_expr_ct2"                       "genes_thresh_expr_ct1"                 "genes_thresh_expr_ct2"
+[9] "lr_expr_ct1_to_ct2"                    "lr_expr_ct2_to_ct1"                    "ligand_activities_matrix_ct1_to_ct2"   "receptor_activities_matrix_ct1_to_ct2"
+[13] "ligand_activities_matrix_ct2_to_ct1"   "receptor_activities_matrix_ct2_to_ct1" "myLRL" 
+```
