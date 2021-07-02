@@ -1,8 +1,8 @@
 # Perform LRLoop analysis using custom GRNs
  
-  A. Construct ligand_target_matrix as in https://github.com/saeyslab/nichenetr/blob/master/vignettes/model_construction.md
-  B. Similar to the construction of ligand_target_matrix, with some functions in nichenetr modified slightly, construct receptor_target_matrix
-  As an example, in our work, we combine the ligand-receptor networks from NicheNet and connectomeDB2020
+  - A. Construct ligand_target_matrix as in https://github.com/saeyslab/nichenetr/blob/master/vignettes/model_construction.md
+  - B. Similar to the construction of ligand_target_matrix, with some functions in nichenetr modified slightly, construct receptor_target_matrix
+  - As an example, in our work, we combine the ligand-receptor networks from NicheNet and connectomeDB2020
   The signaling network and gene regulatory network are taken directly from NicheNet
   Inputs in this example: 
   NicheNet_lr_network.rds
