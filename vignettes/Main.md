@@ -86,7 +86,7 @@ load("ExampleData/receptor_target_matrix_ct2_to_ct1.RData")
 #receptor_target_matrix_ct2_to_ct1 = receptor_target_matrix
 ``` 
 
-## LRloop analysis
+## LRLoop analysis:
 ### Identify the conditions of interest 
 ``` r
 conditions = unique(ct1obj@meta.data[,'Condition'])
@@ -360,7 +360,7 @@ MostBasicLRinfo(LRloop_info = LRloop_info_sub)
 
 
 
-## LRloop plots
+## LRLoop plots:
 ### Circos plot:
 Set up the colors of the L(ligand)nodes, R(receptor)nodes and LRedges for each ligand, receptor and LR cluster
 color_L = c("gray","lightcoral","violet","mediumspringgreen","lightskyblue","goldenrod")
