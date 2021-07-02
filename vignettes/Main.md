@@ -85,3 +85,41 @@ load("ExampleData/receptor_target_matrix_ct2_to_ct1.RData")
 #receptor_target_matrix_ct1_to_ct2 = receptor_target_matrix
 #receptor_target_matrix_ct2_to_ct1 = receptor_target_matrix
 ``` 
+
+## LRloop analysis
+### Identify the conditions of interest 
+``` r
+conditions = unique(ct1obj@meta.data[,'Condition'])
+
+#> conditions
+#[1] "mmP60"      "mmNMDA03"   "mmNMDA06"   "mmNMDA12"   "mmNMDA24"   "mmNMDA36"   "mmNMDA48"   "mmNMDA48FI" "mmNMDA72"  
+```
+### Differential expression analysis for all condition pairs of interest (if length(conditions) >= 2)
+ Remark: Users can use other methods to find differentially expressed genes of interest, just note that the results of this step should be two lists "DEGinfo_ct1" and "DEGinfo_ct2" in which:
+ "DEGinfo_ct1$DEG" and "DEGinfo_ct2$DEG" are lists where each element of them stores the DEA results for one pair of conditions of interest, which is a matrix with genes in rows and at least two colomns "ave_log2FC" and "p_val_adj";  
+ "DEGinfo_ct1$DEgenes" and "DEGinfo_ct2$DEgenes" are vectors of differentially expressed gene symbols (the union of the DEGs resulted from all pairs of conditions of interest)
+ In this example, for each cell type (microglia and MG), we perform DEA between each NMDA time point and mmP60 (control) and collect the union of all the DEGs
+ ``` r
+DEGinfo_ct1 = get_DEG(seuratobj = ct1obj, idents_1 = conditions[2:9], idents_2 = conditions[1], 
+                      only_pos = FALSE, min_pct = 0.1, logfc_threshold = 0.25, p_val_adj_threshold = 0.05, test_use = "wilcox")
+DEGinfo_ct2 = get_DEG(seuratobj = ct2obj, idents_1 = conditions[2:9], idents_2 = conditions[1], 
+                      only_pos = FALSE, min_pct = 0.1, logfc_threshold = 0.25, p_val_adj_threshold = 0.05, test_use = "wilcox")
+                    
+                    #> names(DEGinfo_ct1)
+                    #[1] "DEG"     "DEgenes"
+                    #> names(DEGinfo_ct1$DEG)
+                    #[1] "mmNMDA03_vs_mmP60"   "mmNMDA06_vs_mmP60"   "mmNMDA12_vs_mmP60"   "mmNMDA24_vs_mmP60"   "mmNMDA36_vs_mmP60"   "mmNMDA48_vs_mmP60"   "mmNMDA48FI_vs_mmP60" "mmNMDA72_vs_mmP60"  
+                    #> head(DEGinfo_ct1$DEG$mmNMDA03_vs_mmP60)
+                    #             p_val avg_log2FC pct.1 pct.2    p_val_adj
+                    #Fth1  4.077072e-21   3.664240 1.000 0.793 1.138849e-16
+                    #Srgn  3.063184e-20   3.410460 0.969 0.103 8.556391e-16
+                    #Ftl1  2.086013e-18   2.617280 1.000 0.931 5.826861e-14
+                    #Hmox1 3.108638e-18   5.565917 0.862 0.052 8.683357e-14
+                    #Ccl3  2.758505e-17   4.892835 0.908 0.224 7.705331e-13
+                    #Id2   2.901389e-17   4.377565 0.815 0.034 8.104450e-13
+                    #> head(DEGinfo_ct1$DEgenes)
+                    #[1] "Fth1"  "Srgn"  "Ftl1"  "Hmox1" "Ccl3"  "Id2"  
+
+```
+
+
