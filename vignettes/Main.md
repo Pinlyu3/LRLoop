@@ -386,7 +386,7 @@ CircosPlot(LRscorematrix = LRscore_ct2_to_ct1, LRscore_conditions = conditions[2
            cplotthresh = 0, cex = 1)
 ``` 
 
-### Plot the LRloop network (users could also choose to plot the network in other softwares with the .csv files)
+Plot the LRloop network (users could also choose to plot the network in other softwares with the .csv files)
 The function plotLRL creates two types of plots (3 figures) in which the nodes are denoted in forms of A_L1_R1 and B_L2_R2:
 the ones starting with an "A_" are "L1_R1" pairs and those starting with a "B_" are "L2_R2" pairs
 First run:
