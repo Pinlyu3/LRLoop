@@ -39,6 +39,7 @@ devtools::install_github('https://github.com/Pinlyu3/LRLoop',force = TRUE)
 
 # Learning to use LRLoop
 To learn how to use LRLoop, read the following vignettes explaining several types of analyses:
+- You can download the datasets in vignettes from [google drive](https://drive.google.com/drive/folders/1WV0iSlAXCUwSZMSBnzsHdZc26RuyfunC?usp=sharing)
 
 - [Perform LRLoop analysis starting from a Seurat object](vignettes/Main.md)
 
