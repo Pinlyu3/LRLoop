@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_LRscores.R
 \name{get_LRscores}
 \alias{get_LRscores}
-\title{Calculate the LRscore of each "expressed" ligand-receptor pair in each condition}
+\title{Calculate the LRscore of each "expressed" ligand-receptor pair in each condition.  Only run after running "PrepareBasics".}
 \usage{
 get_LRscores(
   lr_expr,
@@ -10,7 +10,9 @@ get_LRscores(
   value.use_from,
   value.use_to,
   scalar,
-  LRscore_method
+  LRscore_method,
+  LRL_eachcondition,
+  LRL_filter = "none"
 )
 }
 \arguments{
@@ -25,10 +27,14 @@ get_LRscores(
 \item{scalar}{A number, plays the role of a scalar in the calculation of LRscores when the LRscore_method set to 'scsigr' or individual_scale'}
 
 \item{LRscore_method}{The method of calculating the LRscores, available options are 'mean', 'individual_scale', 'individual_scale_exp', 'product', 'bias_receptor' and 'scsigr'}
+
+\item{LRL_eachcondition}{List of LRloop networks in each condition.}
+
+\item{LRL_filter}{"L1R1", "L2R2" or "none".  "L1R1" ("L2R2"): The LR pairs are from ct1 (ct2) to ct2 (ct1) and apply the LRloop filter in each condition, that is, in each condition, an LRscore will be set to 0 if the LR pair does not form any LRloop in that conditon. "none": No LRloop filter applied.}
 }
 \value{
 A matrix with columns "ligand", "receptor" and the condition names that keeps record of the LRscore of each ligand-receptor pair in each condition
 }
 \description{
-Calculate the LRscore of each "expressed" ligand-receptor pair in each condition
+Calculate the LRscore of each "expressed" ligand-receptor pair in each condition.  Only run after running "PrepareBasics".
 }

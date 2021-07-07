@@ -4,12 +4,14 @@
 \alias{take_LR_expr_score}
 \title{Create a dataframe for the expr_scores of L1R1 or L2R2 pairs across all conditions stored in the list resulted from the function 'LRL_info_collection'}
 \usage{
-take_LR_expr_score(LRloop_info, LRpair)
+take_LR_expr_score(LRloop_info, LRpair, LRL_filter = "FALSE")
 }
 \arguments{
 \item{LRloop_info}{A list resulted from the function 'LRL_info_collection'}
 
 \item{LRpair}{'L1R1' or "L2R2'}
+
+\item{LRL_filter}{"TRUE" or "FALSE.  "TRUE": Take the LRloop filtered version of the LRscores where in each condition, an LRscore is set to 0 if the LR pair does not form any LRloop in that conditon.  "FALSE": Take the LRscores with no LRloop filter applied.}
 }
 \description{
 Create a dataframe for the expr_scores of L1R1 or L2R2 pairs across all conditions stored in the list resulted from the function 'LRL_info_collection'

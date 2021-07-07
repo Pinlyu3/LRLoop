@@ -14,6 +14,7 @@ LRL_info_collection(
   LRlfcscore_method,
   LooplfcScore_method,
   LRloop_network,
+  LRL_eachcondition,
   ave_expr_ct1,
   ave_expr_ct2,
   pct_expr_ct1,
@@ -48,6 +49,8 @@ LRL_info_collection(
 \item{LooplfcScore_method}{Method used in the calculation of logFC-based L1R1L2R2 LoopScores, available options are "ave_geo" and "ave_alg"}
 
 \item{LRloop_network}{An LRloop network matrix with columns "L1", "R1", "L2" and "R2".}
+
+\item{LRL_eachcondition}{List of LRloop networks in each condition.}
 
 \item{ave_expr_ct1}{Matrix of average expression value of each gene in each condition in ct1/ct2 cells with genes in rows and conditions in columns.}
 
@@ -95,6 +98,8 @@ LRL_info_collection: a list of matrices:
  LRL_info_collection$'L2R2 expr_score': The LRscores of the L2R2 pairs calculated based on valuse_ct2 and valuse_ct1
  LRL_info_collection$'L2R2 logFC_score': The LRscores of the L2R2 pairs calculated based on the absolute values of the logFC of L2 and R2
  LRL_info_collection$'L2R2 nichenet_score': The nichenet algorithm based scores of L2 and R2 in each L2R2 pair
+ LRL_info_collection$'L1R1 expr_score-LRLoop_filtered': The LRscores of L1R1 pairs calculated based on valuse_ct1 and valuse_ct2 and filtered by LRloops in each condition, that is, in each condition, an LRscore will be set to 0 if the L1R1 pair does not form any LRloop in that conditon. 
+ LRL_info_collection$'L2R2 expr_score-LRLoop_filtered': The LRscores of L2R2 pairs calculated based on valuse_ct2 and valuse_ct1 and filtered by LRloops in each condition, that is, in each condition, an LRscore will be set to 0 if the L2R2 pair does not form any LRloop in that conditon.
 }
 \description{
 Collect data on LRloop network relevant ligands and receptors

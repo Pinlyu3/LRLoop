@@ -30,6 +30,7 @@ get_LRL(
 myLRL: A list of two elements:
  myLRL$'L1->L2_L2->L1': LRloop network with L1->L2 and L2->L1 (L2 is a target of L1 and L1 is a target of L2)
  myLRL$'R1->L2_R2->L1': LRloop network with R1->L2 and R2->L1 (L2 is a target of R1 and L1 is a target of R2)
+ myLRL$'eachcondition': LRLoop networks in each condition
 }
 \description{
 Get the LRloop L1_R1-L2_R2 pairs

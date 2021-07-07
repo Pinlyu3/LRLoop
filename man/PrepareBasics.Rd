@@ -25,28 +25,27 @@ PrepareBasics(
 
 \item{ct2obj}{Seurat objects of cell type1 and cell type2}
 
-\item{min_pct}{Cutoff value on the detection rate of genes in each cell type, each condition for the identification of "expressed" genes. A number between 0 and 1.
-For example, min_pct = 0.1 means that for each cell type and condition, the genes that are detected in at least 10 percent of the cells are considered "expressed".}
+\item{min_pct}{Cutoff value on the detection rate of genes in each cell type, each condition for the identification of "expressed" genes. A number between 0 and 1. For example, min_pct = 0.1 means that for each cell type and condition, the genes that are detected in at least 10 percent of the cells are considered "expressed".}
 
 \item{geneset_ct1}{Vectors of gene symbols considered as the target gene set of interest (for example, the differentailly expressed genes) in cell type1/cell type2 for the calculation of the nichenetr based ligand/receptor activity scores.}
 
 \item{geneset_ct2}{Vectors of gene symbols considered as the target gene set of interest (for example, the differentailly expressed genes) in cell type1/cell type2 for the calculation of the nichenetr based ligand/receptor activity scores.}
 
-\item{lr_network}{Ligand-receptor network matrix with two columns "from" and "to", consisting of the gene symbols of the candidate ligands and receptors, respectively, in pairs.}
+\item{lr_network:}{Ligand-receptor network matrix with two columns "from" and "to", consisting of the gene symbols of the candidate ligands and receptors, respectively, in pairs.}
 
-\item{ligand_target_matrix_ct1_to_ct2}{Matrix of ligand to target regulatory potential scores calculated by nichenetr's algorithm, from ligands expressed in cell type1 to targets in cell type2.  Ligand gene symbols in columns and target gene symbols in rows.}
+\item{ligand_target_matrix_ct1_to_ct2:}{Matrix of ligand to target regulatory potential scores calculated by nichenetr's algorithm, from ligands expressed in cell type1 to targets in cell type2.  Ligand gene symbols in columns and target gene symbols in rows.}
 
-\item{receptor_target_matrix_ct1_to_ct2}{Matrix of receptor to target regulatory potential scores calculated by nichenetr's algorithm, from receptors expressed in cell type2 (that are cognate receptors of ligands expressed in cell type1) to targets in cell type2.  Receptor gene symbols in columns and target gene symbols in rows.}
+\item{ligand_target_matrix_ct2_to_ct1:}{Matrix of ligand to target regulatory potential scores calculated by nichenetr's algorithm, from ligands expressed in cell type2 to targets in cell type1.  Ligand gene symbols in columns and target gene symbols in rows.}
 
-\item{ligand_target_matrix_ct2_to_ct1}{Matrix of ligand to target regulatory potential scores calculated by nichenetr's algorithm, from ligands expressed in cell type2 to targets in cell type1.  Ligand gene symbols in columns and target gene symbols in rows.}
+\item{receptor_target_matrix_ct1_to_ct2:}{Matrix of receptor to target regulatory potential scores calculated by nichenetr's algorithm, from receptors expressed in cell type2 (that are cognate receptors of ligands expressed in cell type1) to targets in cell type2.  Receptor gene symbols in columns and target gene symbols in rows.}
 
-\item{receptor_target_matrix_ct2_to_ct1}{Matrix of receptor to target regulatory potential scores calculated by nichenetr's algorithm, from receptors expressed in cell type1 (that are cognate receptors of ligands expressed in cell type2) to targets in cell type1.  Receptor gene symbols in columns and target gene symbols in rows.}
+\item{receptor_target_matrix_ct2_to_ct1:}{Matrix of receptor to target regulatory potential scores calculated by nichenetr's algorithm, from receptors expressed in cell type1 (that are cognate receptors of ligands expressed in cell type2) to targets in cell type1.  Receptor gene symbols in columns and target gene symbols in rows.}
 
-\item{discrete_error_rate}{Value of the error_rate variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- FDR for cutoff_method "fdrtool" and "distribution"; number between 0 and 1 indicating which top fraction of target genes should be returned for cutoff_method "quantile".}
+\item{discrete_error_rate:}{Value of the error_rate variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- FDR for cutoff_method "fdrtool" and "distribution"; number between 0 and 1 indicating which top fraction of target genes should be returned for cutoff_method "quantile".}
 
-\item{discrete_cutoff_method}{Value of the cutoff_method variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- Method to determine which genes can be considered as a target and which genes not, based on the regulatory probability scores. Possible options "distribution", "fdrtool" and "quantile".}
+\item{discrete_cutoff_method:}{Value of the cutoff_method variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- Method to determine which genes can be considered as a target and which genes not, based on the regulatory probability scores. Possible options: "distribution", "fdrtool" and "quantile".}
 
-\item{discrete_fdr_method}{Value of the fdr_method variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- Only relevant when cutoff_method is "fdrtool". Possible options: "global" and "local"}
+\item{discrete_fdr_method:}{Value of the fdr_method variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- Only relevant when cutoff_method is "fdrtool". Possible options: "global" and "local"}
 }
 \value{
 Basics: A list with the following elements:
