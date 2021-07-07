@@ -479,8 +479,8 @@ CircosPlot(LRscorematrix = LRscore_ct2_to_ct1, LRscore_conditions = conditions[2
 ``` 
 
 <center class="half">
-    <img src="https://github.com/Pinlyu3/LRLoop/raw/Figures/CircosPlot_L1R1_ct1toct2.png" width="300" height = "300"/>
-    <img src="https://github.com/Pinlyu3/LRLoop/raw/Figures/CircosPlot_L2R2_ct2toct1.png" width="300" height = "300"/>
+    <img src="https://github.com/Pinlyu3/LRLoop/Figures/CircosPlot_L1R1_ct1toct2.png" width="300" height = "300"/>
+    <img src="https://github.com/Pinlyu3/LRLoop/Figures/CircosPlot_L2R2_ct2toct1.png" width="300" height = "300"/>
 </center>
 
 
