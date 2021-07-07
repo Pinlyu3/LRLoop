@@ -27,7 +27,7 @@ library(LRLoop)
     2. Their metadata "ct1obj<span>@<span>meta.data" and "ct2obj<span>@<span>meta.data" both have the column "Condition" with the same set of condtions of interest.
 
 2. **ligand_target_matrix_ct1_to_ct2, ligand_target_matrix_ct2_to_ct1, receptor_target_matrix_ct1_to_ct2 and receptor_target_matrix_ct2_to_ct1**
-    1. Matrices resulted from STEP 1 ([Perform LRLoop analysis using custom GRNs](vignettes/Custom_GRNs.md))
+    1. Matrices resulted from STEP 1 ([Perform LRLoop analysis using custom GRNs](https://github.com/Pinlyu3/LRLoop/blob/main/vignettes/Custom_GRNs.md))
 
 Remark: For the ligand_target and receptor_target matrices, users can also choose to skip STEP 1 and use a set of our pre-calculated matrices in the "Networks/DefaultNetworks/" folder in [google drive](https://drive.google.com/drive/folders/1WV0iSlAXCUwSZMSBnzsHdZc26RuyfunC?usp=sharing)
 

@@ -129,7 +129,8 @@ receptor_target_matrix = construct_receptor_target_matrix(weighted_networks = we
                                                           rtf_cutoff = hyperparameter_list$ltf_cutoff)
 ``` 
 
-## Convert to mouse genes, if needed
+## Convert to mouse genes, if neededYing Xin
+
 
 ``` r
 lr_network = lr_network %>% mutate(from = convert_human_to_mouse_symbols(from), to = convert_human_to_mouse_symbols(to)) %>% drop_na()
