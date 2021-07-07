@@ -478,6 +478,11 @@ CircosPlot(LRscorematrix = LRscore_ct2_to_ct1, LRscore_conditions = conditions[2
            cplotthresh = 0, cex = 1)
 ``` 
 
+<center class="half">
+    <img src="Figures/CircosPlot_L1R1_ct1toct2.tiff" width="300" height = "300"/>
+    <img src="Figures/CircosPlot_L2R2_ct2toct1.tiff" width="300" height = "300"/>
+</center>
+
 
 #### LRLoop network plot
 Plot the LRloop network (users could also choose to plot the network in other softwares with the .csv files)
@@ -495,6 +500,11 @@ print_LRL_Score_options(LRloop_info_sub) # Print options for the variable "Which
 #[16] "L1R1L2R2_logFC_Score_mmNMDA36_vs_mmP60"   "L1R1L2R2_logFC_Score_mmNMDA48_vs_mmP60"   "L1R1L2R2_logFC_Score_mmNMDA48FI_vs_mmP60" "L1R1L2R2_logFC_Score_mmNMDA72_vs_mmP60"   "L1R1L2R2_logFC_Score_max"                
 #[21] "L1R1L2R2_logFC_Score_mean"                "L1R1L2R2_maxlogFC_basedScore"             "L1R1L2R2_meanlogFC_basedScore"     
 ```
+
+
+
+
+
 
 Set colors for heatmaps:
 ``` r
