@@ -413,28 +413,6 @@ writeLRL(LRloop_info_sub, filedir2)
 
 
 ``` r
-idx = which(LRloop_info$LRloopDEG[,'L1_diff'] == 'TRUE' & LRloop_info$LRloopDEG[,'L2_diff'] == 'TRUE' &
-              as.numeric(LRloop_info$`LRloop nichenet_score`[,'L1_nichenetscore']) >= 0.05 & 
-              as.numeric(LRloop_info$`LRloop nichenet_score`[,'R1_nichenetscore']) >= 0.05)
-LRloop_network_sub = LRloop_network[idx,]
-LRloop_info_sub = LRL_info_collection(LRloop_network = LRloop_network_sub, # Note that compared to the first time running the function "LRL_info_collection", this is the only variable needs to be changed
-                                      valuse_ct1 = Basics$ave_expr_ct1, valuse_ct2 = Basics$ave_expr_ct2, scalar = overallaveexprm, 
-                                      ScoreConditionIdx = c(1,2,3,4,5,6,7,9), 
-                                      LRscore_method = 'scsigr', LoopScore_method = "ave_geo",
-                                      LRlfcscore_method = "mean", LooplfcScore_method = 'ave_alg',
-                                      DEGinfo_ct1 = DEGinfo_ct1, DEGinfo_ct2 = DEGinfo_ct2,
-                                      genes_cluster_ct1 = genes_cluster_ct1, genes_cluster_ct2 = genes_cluster_ct2, 
-                                      L1R1_cluster = L1R1_cluster, L2R2_cluster = L2R2_cluster,
-                                      ave_expr_ct1 = Basics$ave_expr_ct1, ave_expr_ct2 = Basics$ave_expr_ct2,
-                                      pct_expr_ct1 = Basics$pct_expr_ct1, pct_expr_ct2 = Basics$pct_expr_ct2,
-                                      ligand_activities_matrix_ct1_to_ct2 = Basics$ligand_activities_matrix_ct1_to_ct2, 
-                                      receptor_activities_matrix_ct1_to_ct2 = Basics$receptor_activities_matrix_ct1_to_ct2,
-                                      ligand_activities_matrix_ct2_to_ct1 = Basics$ligand_activities_matrix_ct2_to_ct1,
-                                      receptor_activities_matrix_ct2_to_ct1 = Basics$receptor_activities_matrix_ct2_to_ct1)
-filedir2 = "ExampleData/outputs_filtered/"
-writeLRL(LRloop_info_sub, filedir2)
-``` 
-``` r
 ### Let's have a look at some most basic info about the identified ligand-receptor pairs
 MostBasicLRinfo(LRloop_info = LRloop_info_sub)
 #[1] "Number of L1-R1 pairs:"
