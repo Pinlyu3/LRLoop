@@ -1,10 +1,18 @@
-# Perform LRLoop analysis starting form a Seurat object
+# Perform LRLoop analysis starting from Seurat objects
 
-## load  packages:
-``` r
-library(LRLoop)
-```
-## load data:
+
+## STEP 1: Get ligand_target_matrix and receptor_target_matrix
+- [Perform LRLoop analysis using custom GRNs](vignettes/Custom_GRNs.md)
+
+
+## STEP 2: Prepare expression data
+Seurat objects (data LogNormalized) "ct1obj" and "ct2obj" of the cell types of interest (celltype1 (ct1) and celltype2 (ct2)):
+- a) their gene expression data "ct1obj@assays$RNA@data" and "ct2obj@assays$RNA@data" should have the same rows (genes in rows); 
+- b) their metadata 「"ct1obj@meta.data"」 and "ct2obj@meta.data" should both have the column "Condition" with the same set of conditions of interest.
+
+
+
+
 Required inputs:
 -  Seurat object (data LogNormalized) of celltype1 (ct1) and celltype2 (ct2) "ct1obj" and "ct2obj":
 - a) Their corresponding expression data "ct1obj@assays$RNA@data" and "ct2obj@assays$RNA@data" should have the same rows (genes in rows); 
@@ -86,7 +94,13 @@ load("ExampleData/receptor_target_matrix_ct2_to_ct1.RData")
 #receptor_target_matrix_ct2_to_ct1 = receptor_target_matrix
 ``` 
 
-## LRLoop analysis:
+## STEP 3: LRLoop analysis
+
+### load packages
+``` r
+library(LRLoop)
+```
+
 Identify the conditions of interest 
 ``` r
 conditions = unique(ct1obj@meta.data[,'Condition'])
