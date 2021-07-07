@@ -2,7 +2,7 @@
 
 
 ## STEP 1: Get ligand_target_matrix and receptor_target_matrix
-- [Perform LRLoop analysis using custom GRNs](vignettes/Custom_GRNs.md)
+- [Perform LRLoop analysis using custom GRNs](https://github.com/Pinlyu3/LRLoop/vignettes/Custom_GRNs.md)
 
 
 ## STEP 2: Prepare expression data
