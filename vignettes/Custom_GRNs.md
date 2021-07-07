@@ -42,24 +42,33 @@ source_weights_df = source_weights_df %>% bind_rows(new_network_weights_df)
 new_annotation_data_source = tibble(source = 'NATMI', database = 'NATMI', type_db = 'NATMI', 
                                     type_interaction = 'NATMI', network = 'ligand_receptor')
 annotation_data_sources = rbind(annotation_data_sources, new_annotation_data_source)
+```
 
 ### signaling network 
+``` r
 sig_network = readRDS("Networks/NicheNet_signaling_network.rds")
-
+```
 ### gene regulatory network 
+``` r
 gr_network = readRDS("Networks/NicheNet_gr_network.rds")
+```
 
 ### if user provided context-specific gene regulatory network (named "mygr_network") with source and database "mygr" is preferred, then after "mygr_network" is loaded and processed (optional):
- gr_network = mygr_network
- new_network_weights_df = tibble(source = 'mygr', weight = 1)
- source_weights_df = source_weights_df %>% bind_rows(new_network_weights_df)
- new_annotation_data_source = tibble(source = 'mygr', database = 'mygr', type_db = 'mygr', 
+``` r
+gr_network = mygr_network
+new_network_weights_df = tibble(source = 'mygr', weight = 1)
+source_weights_df = source_weights_df %>% bind_rows(new_network_weights_df)
+new_annotation_data_source = tibble(source = 'mygr', database = 'mygr', type_db = 'mygr', 
                                      type_interaction = 'mygr', network = 'gene_regulatory')
- annotation_data_sources = rbind(annotation_data_sources, new_annotation_data_source)
-# Remark: If mygr_network is prefered, also remove the original gr_network's data sources from source_weights_df in the next step
+annotation_data_sources = rbind(annotation_data_sources, new_annotation_data_source)
+``` 
+
+Remark: If mygr_network is prefered, also remove the original gr_network's data sources from source_weights_df in the next step
 
 ### Only keep selected data sources (optional): 
-# In this example, we remove the ppi predicted ligand-receptor pairs from the ligand-receptor network
+In this example, we remove the ppi predicted ligand-receptor pairs from the ligand-receptor network
+
+``` r
 data_sources_to_remove = annotation_data_sources %>% filter(database %in% c("ppi_prediction","ppi_prediction_go")) %>% pull(source)
 data_sources_to_keep = annotation_data_sources$source %>% setdiff(data_sources_to_remove) 
 source_weights_df = source_weights_df %>% filter(source %in% data_sources_to_keep)

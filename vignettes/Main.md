@@ -532,7 +532,9 @@ colnames(L2R2score_matrix) = conditions[c(1,2,3,4,5,6,7,9)]
 #Apoe_Sorl1  0.7435300 0.7304094 0.6442803 0.4853939 0.6819413 0.7918724 0.8345925 0.8490935
 #Tgfb1_Itgb8 0.5776929 0.8226347 0.7900120 0.6648106 0.5966116 0.6692205 0.6958490 0.7503173
 
-# pheatmap plots
+pheatmap plots
+
+``` r
 my.breaks = c(seq(-3, 0, by=0.1), seq(0.1, 20, by=5)) 
 my.colors = c(colorRampPalette(colors = c("white", "red"))(length(my.breaks)/2), 
               colorRampPalette(colors = c("red","darkred"))(length(my.breaks)/2))
