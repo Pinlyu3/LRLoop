@@ -290,7 +290,7 @@ load("ExampleData/Clusters_kmeans/genes_cluster_ct2.RData")
 
 
 <div align="center">
-<img src="kmeanscluster_DEG_ct1.png" width="300" height = "500"/><img src="kmeanscluster_DEG_ct2.png" width="300" height = "500"/>
+<img src="kmeanscluster_DEG_ct1.png" width="300" height = "400"/><img src="kmeanscluster_DEG_ct2.png" width="300" height = "400"/>
 </div>
 
 
