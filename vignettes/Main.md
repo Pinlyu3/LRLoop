@@ -281,6 +281,7 @@ load("ExampleData/Clusters_kmeans/genes_cluster_ct2.RData")
 ```
 
 L1R1_cluster, L2R2_cluster: Vector of cluster-names (integers 0,1,2,...) with the name of each element the corresponding ligand-receptor pair gene symbols.
+
 Remark: The clusters are denoted by consecutive integers from 0.  Users can cluster them differently as preferred.
 Here as an example, the "expressed" ligand-receptor pairs where either the ligand or the receptor is differentially expressed at some NMDA time point compared to control "mmP60" were pre-clustered according to the calculated LRscores by k-means clustering across all conditions, and the none-differentially expressed ones belong to cluster 0.
 
