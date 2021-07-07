@@ -8,7 +8,7 @@
 ## STEP 2: Prepare expression data
 Seurat objects (data LogNormalized) "ct1obj" and "ct2obj" of the cell types of interest (celltype1 (ct1) and celltype2 (ct2)):
 - a) their gene expression data "ct1obj@assays$RNA@data" and "ct2obj@assays$RNA@data" should have the same rows (genes in rows); 
-- b) their metadata 「"ct1obj@meta.data"」 and "ct2obj@meta.data" should both have the column "Condition" with the same set of conditions of interest.
+- b) their metadata "ct1obj<span>@<span>meta.data" and "ct2obj<span>@<span>meta.data" should both have the column "Condition" with the same set of conditions of interest.
 
 
 
