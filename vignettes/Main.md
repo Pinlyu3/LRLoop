@@ -154,12 +154,113 @@ DEGinfo_ct2 = get_DEG(seuratobj = ct2obj, idents_1 = conditions[2:9], idents_2 =
 #[1] "Fth1"  "Srgn"  "Ftl1"  "Hmox1" "Ccl3"  "Id2"  
 ```
 
+If there is only one condition or DEA info is not desired, just create the lists DEGinfo_ct1 and DEGinfo_ct2 in the required formats as spot holders for other relevant functions that use them as variables. For example, one can create them by running:
+
+``` r
+DEGinfo_ct1 = get_DEG(seuratobj = ct1obj, idents_1 = conditions[1], idents_2 = conditions[1], 
+                      only_pos = FALSE, min_pct = 0, logfc_threshold = 0, p_val_adj_threshold = 1.1)
+DEGinfo_ct2 = get_DEG(seuratobj = ct2obj, idents_1 = conditions[1], idents_2 = conditions[1], 
+                      only_pos = FALSE, min_pct = 0, logfc_threshold = 0, p_val_adj_threshold = 1.1)
+DEGinfo_ct1$DEgenes = DEGinfo_ct1$DEgenes[sample(length(DEGinfo_ct1$DEgenes), 0.2*length(DEGinfo_ct1$DEgenes))]
+DEGinfo_ct2$DEgenes = DEGinfo_ct2$DEgenes[sample(length(DEGinfo_ct2$DEgenes), 0.2*length(DEGinfo_ct2$DEgenes))]
+```
+
+
 
 #### Prepare a list of some basic data info
 
+``` r
+Basics = PrepareBasics(ct1obj, ct2obj, min_pct = 0.1, geneset_ct1 = DEGinfo_ct1$DEgenes, geneset_ct2 = DEGinfo_ct2$DEgenes,
+                       lr_network, 
+                       ligand_target_matrix_ct1_to_ct2, receptor_target_matrix_ct1_to_ct2, ligand_target_matrix_ct2_to_ct1, receptor_target_matrix_ct2_to_ct1,
+                       discrete_error_rate = 0.1, discrete_cutoff_method = "distribution", discrete_fdr_method = "global")
+``` 
+
+Here in PrepareBasics:
+- min_pct: Cutoff value on the detection rate of genes in each cell type, each condition, for the identification of "expressed" genes. A number between 0 and 1. For example, min_pct = 0.1 means that for each cell type and condition, the genes that are detected in at least 10 percent of the cells are considered "expressed".
+- geneset_ct1, geneset_ct2: Vectors of gene symbols considered as the target gene set of interest (for example, the differentailly expressed genes) in cell type1/cell type2 for the calculation of the nichenetr based ligand/receptor activity scores.  
+- discrete_error_rate: Value of the error_rate variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- FDR for cutoff_method "fdrtool" and "distribution"; number between 0 and 1 indicating which top fraction of target genes should be returned for cutoff_method "quantile".
+- discrete_cutoff_method: Value of the cutoff_method variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- Method to determine which genes can be considered as a target and which genes not, based on the regulatory probability scores. Possible options: "distribution", "fdrtool" and "quantile".
+- discrete_fdr_method: Value of the fdr_method variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- Only relevant when cutoff_method is "fdrtool". Possible options: "global" and "local"  
+
+``` r
+names(Basics)
+[1] "ave_expr_ct1"                          "ave_expr_ct2"                          "pct_expr_ct1"                          "pct_expr_ct2"                         
+[5] "thresh_expr_ct1"                       "thresh_expr_ct2"                       "genes_thresh_expr_ct1"                 "genes_thresh_expr_ct2"
+[9] "lr_expr_ct1_to_ct2"                    "lr_expr_ct2_to_ct1"                    "ligand_activities_matrix_ct1_to_ct2"   "receptor_activities_matrix_ct1_to_ct2"
+[13] "ligand_activities_matrix_ct2_to_ct1"   "receptor_activities_matrix_ct2_to_ct1" "myLRL" 
+```
+
 #### Get the LRloop network matrix
 
+Get the LRloop network matrix
+
+``` r
+LRloop_network = Basics$myLRL$`R1->L2_R2->L1`
+
+#> head(LRloop_network)
+#     L2      R2       L1      R1      
+#[1,] "Tgfb2" "Tgfbr1" "Tgfb1" "Itgav" 
+#[2,] "Tgfb2" "Tgfbr2" "Psap"  "Gpr37" 
+#[3,] "Tgfb2" "Tgfbr2" "Calr"  "Itgav" 
+#[4,] "Tgfb2" "Tgfbr2" "Mfng"  "Notch2"
+#[5,] "Cadm1" "Cadm1"  "Cadm1" "Cadm1" 
+#[6,] "Igf2"  "Igf1r"  "Apoe"  "Sorl1" 
+```
+
+
 #### (Optional) Calculate LRscores of the expressed L1R1 and L2R2 pairs
+
+``` r
+overallaveexprm = log1p(mean(cbind(expm1(as.matrix(ct1obj@assays$RNA@data)), expm1(as.matrix(ct2obj@assays$RNA@data))))) # a scalar value used in the LRscore calculation when the method is set to 'scsigr' or individual_scale'
+
+#> overallaveexprm
+#[1] 0.3060127
+```
+
+Remark: If ct1obj and ct2obj are sub-objects taken from a big Seurat object, and one needs to investigate ligand-receptor interactions between multiple cell type pairs, to make the LRscores comparable across different cell type pairs, we should use the same scalar value for all calculations.
+
+For example, suppose the big Seurat object is seuratobj (data LogNormalized), one can calculate and save the following beforehand:
+
+``` r
+overallaveexprm = log1p(mean(expm1(as.matrix(seuratobj@assays$RNA@data))))
+```
+
+``` r
+LRscore_ct1_to_ct2 = get_LRscores(lr_expr = Basics$lr_expr_ct1_to_ct2$bind, conditions = conditions, 
+                                  value.use_from = Basics$ave_expr_ct1, value.use_to = Basics$ave_expr_ct2, 
+                                  scalar = overallaveexprm, LRscore_method = 'scsigr')
+LRscore_ct2_to_ct1 = get_LRscores(lr_expr = Basics$lr_expr_ct2_to_ct1$bind, conditions = conditions, 
+                                  value.use_from = Basics$ave_expr_ct2, value.use_to = Basics$ave_expr_ct1, 
+                                  scalar = overallaveexprm, LRscore_method = 'scsigr') 
+
+#> head(Basics$lr_expr_ct1_to_ct2$bind)
+#     from    to     
+#[1,] "Cntn1" "Nrcam"
+#[2,] "Cadm1" "Cadm1"
+#[3,] "Negr1" "Negr1"
+#[4,] "Vtn"   "Itgav"
+#[5,] "Vtn"   "Itgb5"
+#[6,] "Igf1"  "Igf1r"
+#> head(Basics$ave_expr_ct1)
+#            mmP60  mmNMDA03 mmNMDA06  mmNMDA12  mmNMDA24  mmNMDA36  mmNMDA48 mmNMDA48FI  mmNMDA72
+#Xkr4    0.0000000 0.0000000  0.00000 0.0000000 0.0000000 0.0230486 0.0000000    0.00000 0.0000000
+#Gm1992  0.0000000 0.0000000  0.00000 0.0000000 0.0000000 0.0000000 0.0000000    0.00000 0.0000000
+#Gm37381 0.0000000 0.0000000  0.00000 0.0000000 0.0000000 0.0000000 0.0000000    0.00000 0.0000000
+#Sox17   0.0000000 0.0000000  0.00000 0.0000000 0.0000000 0.0000000 0.0000000    0.00000 0.0000000
+#Gm37323 0.0000000 0.0000000  0.00000 0.0000000 0.0000000 0.0000000 0.0000000    0.00000 0.0000000
+#Mrpl15  0.6471934 0.4918144  0.21113 0.6079308 0.5227859 0.5845097 0.4401679    0.55896 0.3714317
+#LRscore_method: The method of calculating the LRscores, available options are 'mean', 'individual_scale', 'individual_scale_exp', 'product', 'bias_receptor' and 'scsigr'
+#> head(LRscore_ct1_to_ct2)
+#     from    to      mmP60               mmNMDA03            mmNMDA06            mmNMDA12            mmNMDA24            mmNMDA36            mmNMDA48            mmNMDA48FI          mmNMDA72           
+#[1,] "Cntn1" "Nrcam" "0.700875949564521" "0.421899538729416" "0"                 "0"                 "0"                 "0.439953572661513" "0.386924637006801" "0.381820284661351" "0.164722835765612"
+#[2,] "Cadm1" "Cadm1" "0.837837903885129" "0.836832042750149" "0.826856069285421" "0.843870934371788" "0.801584027354358" "0.81842076770425"  "0.811217034401163" "0.774025099109966" "0.806843973425742"
+#[3,] "Negr1" "Negr1" "0.74836885595467"  "0.274150993205106" "0.357526455903131" "0"                 "0.348342170937864" "0.383991067120397" "0.277286910370301" "0.236749018933602" "0.224390923657688"
+#[4,] "Vtn"   "Itgav" "0.720337468653989" "0.761382700046915" "0.781760361274263" "0.749407138949124" "0.648311455923783" "0.755421130422588" "0.716382339902723" "0.620057544015233" "0.695830983638457"
+#[5,] "Vtn"   "Itgb5" "0.679236095429675" "0.569209173911564" "0.564360896574841" "0.533313398662959" "0.514333498614948" "0.666463571454103" "0.624268666392938" "0.522903284832386" "0.567473065827716"
+#[6,] "Igf1"  "Igf1r" "0.735677425105909" "0.457142015793351" "0"                 "0.328033574092079" "0.28576613285034"  "0.751907754733162" "0.723709627196896" "0.518187031914579" "0.802080634951742"
+```
+
 
 #### Cluster the genes in ct1, ct2, and expressed L1-R1 and L2-R2 pairs
 
@@ -182,76 +283,6 @@ DEGinfo_ct2 = get_DEG(seuratobj = ct2obj, idents_1 = conditions[2:9], idents_2 =
 
 
 
-
-
-
-
-Identify the conditions of interest 
-``` r
-conditions = unique(ct1obj@meta.data[,'Condition'])
-
-#> conditions
-#[1] "mmP60"      "mmNMDA03"   "mmNMDA06"   "mmNMDA12"   "mmNMDA24"   "mmNMDA36"   "mmNMDA48"   "mmNMDA48FI" "mmNMDA72"  
-```
-Differential expression analysis for all condition pairs of interest (if length(conditions) >= 2)
- Remark: Users can use other methods to find differentially expressed genes of interest, just note that the results of this step should be two lists "DEGinfo_ct1" and "DEGinfo_ct2" in which:
- "DEGinfo_ct1$DEG" and "DEGinfo_ct2$DEG" are lists where each element of them stores the DEA results for one pair of conditions of interest, which is a matrix with genes in rows and at least two colomns "ave_log2FC" and "p_val_adj";  
- "DEGinfo_ct1$DEgenes" and "DEGinfo_ct2$DEgenes" are vectors of differentially expressed gene symbols (the union of the DEGs resulted from all pairs of conditions of interest)
- In this example, for each cell type (microglia and MG), we perform DEA between each NMDA time point and mmP60 (control) and collect the union of all the DEGs
- ``` r
-DEGinfo_ct1 = get_DEG(seuratobj = ct1obj, idents_1 = conditions[2:9], idents_2 = conditions[1], 
-                      only_pos = FALSE, min_pct = 0.1, logfc_threshold = 0.25, p_val_adj_threshold = 0.05, test_use = "wilcox")
-DEGinfo_ct2 = get_DEG(seuratobj = ct2obj, idents_1 = conditions[2:9], idents_2 = conditions[1], 
-                      only_pos = FALSE, min_pct = 0.1, logfc_threshold = 0.25, p_val_adj_threshold = 0.05, test_use = "wilcox")
-                    
-#> names(DEGinfo_ct1)
-#[1] "DEG"     "DEgenes"
-#> names(DEGinfo_ct1$DEG)
-#[1] "mmNMDA03_vs_mmP60"   "mmNMDA06_vs_mmP60"   "mmNMDA12_vs_mmP60"   "mmNMDA24_vs_mmP60"   "mmNMDA36_vs_mmP60"   "mmNMDA48_vs_mmP60"   "mmNMDA48FI_vs_mmP60" "mmNMDA72_vs_mmP60"  
-#> head(DEGinfo_ct1$DEG$mmNMDA03_vs_mmP60)
-#             p_val avg_log2FC pct.1 pct.2    p_val_adj
-#Fth1  4.077072e-21   3.664240 1.000 0.793 1.138849e-16
-#Srgn  3.063184e-20   3.410460 0.969 0.103 8.556391e-16
-#Ftl1  2.086013e-18   2.617280 1.000 0.931 5.826861e-14
-#Hmox1 3.108638e-18   5.565917 0.862 0.052 8.683357e-14
-#Ccl3  2.758505e-17   4.892835 0.908 0.224 7.705331e-13
-#Id2   2.901389e-17   4.377565 0.815 0.034 8.104450e-13
-#> head(DEGinfo_ct1$DEgenes)
-#[1] "Fth1"  "Srgn"  "Ftl1"  "Hmox1" "Ccl3"  "Id2"  
-```
-
- If there is only one condition or DEA info is not desired, just create the lists DEGinfo_ct1 and DEGinfo_ct2 in the required formats as spot holders for other relevant functions that use them as variables. For example, one can create them by running:
-  ``` r
-DEGinfo_ct1 = get_DEG(seuratobj = ct1obj, idents_1 = conditions[1], idents_2 = conditions[1], 
-                      only_pos = FALSE, min_pct = 0, logfc_threshold = 0, p_val_adj_threshold = 1.1)
-DEGinfo_ct2 = get_DEG(seuratobj = ct2obj, idents_1 = conditions[1], idents_2 = conditions[1], 
-                      only_pos = FALSE, min_pct = 0, logfc_threshold = 0, p_val_adj_threshold = 1.1)
-DEGinfo_ct1$DEgenes = DEGinfo_ct1$DEgenes[sample(length(DEGinfo_ct1$DEgenes), 0.2*length(DEGinfo_ct1$DEgenes))]
-DEGinfo_ct2$DEgenes = DEGinfo_ct2$DEgenes[sample(length(DEGinfo_ct2$DEgenes), 0.2*length(DEGinfo_ct2$DEgenes))]
-```
-
-Prepare a list of some basic data info
-``` r
-Basics = PrepareBasics(ct1obj, ct2obj, min_pct = 0.1, geneset_ct1 = DEGinfo_ct1$DEgenes, geneset_ct2 = DEGinfo_ct2$DEgenes,
-                       lr_network, 
-                       ligand_target_matrix_ct1_to_ct2, receptor_target_matrix_ct1_to_ct2, ligand_target_matrix_ct2_to_ct1, receptor_target_matrix_ct2_to_ct1,
-                       discrete_error_rate = 0.1, discrete_cutoff_method = "distribution", discrete_fdr_method = "global")
-```                  
-                       
- Here in PrepareBasics:
- - min_pct: Cutoff value on the detection rate of genes in each cell type, each condition, for the identification of "expressed" genes. A number between 0 and 1. For example, min_pct = 0.1 means that for each cell type and condition, the genes that are detected in at least 10 percent of the cells are considered "expressed".
-- geneset_ct1, geneset_ct2: Vectors of gene symbols considered as the target gene set of interest (for example, the differentailly expressed genes) in cell type1/cell type2 for the calculation of the nichenetr based ligand/receptor activity scores.  
-- discrete_error_rate: Value of the error_rate variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- FDR for cutoff_method "fdrtool" and "distribution"; number between 0 and 1 indicating which top fraction of target genes should be returned for cutoff_method "quantile".
-- discrete_cutoff_method: Value of the cutoff_method variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- Method to determine which genes can be considered as a target and which genes not, based on the regulatory probability scores. Possible options: "distribution", "fdrtool" and "quantile".
-- discrete_fdr_method: Value of the fdr_method variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- Only relevant when cutoff_method is "fdrtool". Possible options: "global" and "local"
-
-``` r
-names(Basics)
-[1] "ave_expr_ct1"                          "ave_expr_ct2"                          "pct_expr_ct1"                          "pct_expr_ct2"                         
-[5] "thresh_expr_ct1"                       "thresh_expr_ct2"                       "genes_thresh_expr_ct1"                 "genes_thresh_expr_ct2"
-[9] "lr_expr_ct1_to_ct2"                    "lr_expr_ct2_to_ct1"                    "ligand_activities_matrix_ct1_to_ct2"   "receptor_activities_matrix_ct1_to_ct2"
-[13] "ligand_activities_matrix_ct2_to_ct1"   "receptor_activities_matrix_ct2_to_ct1" "myLRL" 
-```
 
 
 
