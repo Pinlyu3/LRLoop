@@ -518,7 +518,7 @@ plotLRL(LRloop_info = LRloop_info_sub, WhichL1R1L2R2Score = "L1R1L2R2_exprScore_
 
 
 <div align="center">
-<img src="LRloop_network_sub.png" width="500" height = "500"/><img src="LRloop_network_sub_heatmap_labeled.png" width="700" height = "500"/>
+<img src="LRloop_network_sub.png" width="400" height = "400"/><img src="LRloop_network_sub_heatmap_labeled.png" width="400" height = "400"/>
 </div>
 
 
