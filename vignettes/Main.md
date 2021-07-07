@@ -11,6 +11,32 @@ Seurat objects (data LogNormalized) "ct1obj" and "ct2obj" of the cell types of i
 - b) their metadata "ct1obj<span>@<span>meta.data" and "ct2obj<span>@<span>meta.data" should both have the column "Condition" with the same set of conditions of interest.
 
 
+## STEP 3: LRLoop analysis
+
+### load packages
+``` r
+library(LRLoop)
+```
+
+### load data
+Required inputs:
+
+1. Seurat object (data LogNormalized) of celltype1 (ct1) and celltype2 (ct2) "ct1obj" and "ct2obj"
+2. a) Their corresponding expression data "ct1obj@assays$RNA@data" and "ct2obj@assays$RNA@data" should have the same rows (genes in rows);
+3. b) Their metadata "ct1obj<span>@<span>meta.data" and "ct2obj<span>@<span>meta.data" both have the column "Condition" with the same set of condtions of interest.
+
+
+
+### LRLoop computation
+
+
+
+
+### LRLoop plots
+
+
+
+
 
 
 Required inputs:
@@ -94,12 +120,6 @@ load("ExampleData/receptor_target_matrix_ct2_to_ct1.RData")
 #receptor_target_matrix_ct2_to_ct1 = receptor_target_matrix
 ``` 
 
-## STEP 3: LRLoop analysis
-
-### load packages
-``` r
-library(LRLoop)
-```
 
 Identify the conditions of interest 
 ``` r
