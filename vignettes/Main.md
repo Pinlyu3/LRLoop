@@ -312,6 +312,17 @@ load("ExampleData/Clusters_kmeans/L2R2_cluster.RData")
 #       1           1           1           3           1           1 
 ```
 
+
+
+
+<div align="center">
+<img src="L1R1_kmeanscluster.png" width="300" height = "400"/><img src="L2R2_kmeanscluster.png" width="300" height = "450"/>
+</div>
+
+
+
+
+
 If such clusterings are not desired, just create genes_cluster_ct1, genes_cluster_ct2, L1R1_cluster and L2R2_cluster in the required formats as spot holders for other relevant functions that use them as variables. For example, one can create them by running:
 
 ``` r
