@@ -13,7 +13,7 @@ LRLoop is a full-featured R package for analyzing LR-Loops from bulk & single-ce
 
 <hr>
 
-# Quick Installation of LRLoop
+## Quick Installation of LRLoop
 
 **First, install devtools (for installing GitHub packages) if it isn't already installed**
 ```{r}
@@ -37,11 +37,11 @@ devtools::install_github('https://github.com/Pinlyu3/LRLoop',force = TRUE)
 
 <hr>
 
-# Learning to use LRLoop
+## Learning to use LRLoop
 To learn how to use LRLoop, read the following vignettes explaining several types of analyses:
 - You can download the datasets in vignettes from [google drive](https://drive.google.com/drive/folders/1WV0iSlAXCUwSZMSBnzsHdZc26RuyfunC?usp=sharing)
 
-- [Perform LRLoop analysis starting from a Seurat object](vignettes/Main.md)
+- [Perform LRLoop analysis starting from Seurat objects](vignettes/Main.md)
 
 - [Perform LRLoop analysis using custom GRNs](vignettes/Custom_GRNs.md)
 
@@ -49,7 +49,7 @@ To learn how to use LRLoop, read the following vignettes explaining several type
 
 <hr>
 
-# Issues using LRLoop?
+## Issues using LRLoop?
 
 LRLoop is currently in __beta__. If you think you have found a bug, please [report an issue on Github](https://github.com/Pinlyu3/LRLoop/issues) with the __Bug Report__ form.
 
