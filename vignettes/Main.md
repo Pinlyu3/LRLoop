@@ -6,9 +6,10 @@
 
 
 ## STEP 2: Prepare expression data
-Seurat objects (data LogNormalized) "ct1obj" and "ct2obj" of the cell types of interest (celltype1 (ct1) and celltype2 (ct2)):
-- a) their gene expression data "ct1obj@assays$RNA@data" and "ct2obj@assays$RNA@data" should have the same rows (genes in rows); 
-- b) their metadata "ct1obj<span>@<span>meta.data" and "ct2obj<span>@<span>meta.data" should both have the column "Condition" with the same set of conditions of interest.
+
+1. Seurat objects (data LogNormalized) "ct1obj" and "ct2obj" of the cell types of interest (celltype1 (ct1) and celltype2 (ct2)):
+    1. their gene expression data "ct1obj@assays$RNA@data" and "ct2obj@assays$RNA@data" should have the same rows (genes in rows); 
+    2. their metadata "ct1obj<span>@<span>meta.data" and "ct2obj<span>@<span>meta.data" should both have the column "Condition" with the same set of conditions of interest.
 
 
 ## STEP 3: LRLoop analysis
@@ -22,8 +23,8 @@ library(LRLoop)
 Required inputs:
 
 1. Seurat object (data LogNormalized) of celltype1 (ct1) and celltype2 (ct2) "ct1obj" and "ct2obj"
-2. a) Their corresponding expression data "ct1obj@assays$RNA@data" and "ct2obj@assays$RNA@data" should have the same rows (genes in rows);
-3. b) Their metadata "ct1obj<span>@<span>meta.data" and "ct2obj<span>@<span>meta.data" both have the column "Condition" with the same set of condtions of interest.
+    1. Their corresponding expression data "ct1obj@assays$RNA@data" and "ct2obj@assays$RNA@data" should have the same rows (genes in rows);
+    2. Their metadata "ct1obj<span>@<span>meta.data" and "ct2obj<span>@<span>meta.data" both have the column "Condition" with the same set of condtions of interest.
 
 
 
