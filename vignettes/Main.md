@@ -479,7 +479,7 @@ CircosPlot(LRscorematrix = LRscore_ct2_to_ct1, LRscore_conditions = conditions[2
 ``` 
 
 <center class="half">
-    <img src="Figures/CircosPlot_L2R2_ct2toct1.png" width="300" height = "300"/>
+    <img src="Figures/LRLoops1.png" width="300" height = "300"/>
     <img src="Figures/CircosPlot_L2R2_ct2toct1.png" width="300" height = "300"/>
 </center>
 
