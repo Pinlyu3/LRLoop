@@ -478,9 +478,9 @@ CircosPlot(LRscorematrix = LRscore_ct2_to_ct1, LRscore_conditions = conditions[2
            cplotthresh = 0, cex = 1)
 ``` 
 
-<center class="half">
-    <img src="CircosPlot_L1R1_ct1toct2.png" width="300" height = "300"/><img src="CircosPlot_L2R2_ct2toct1.png" width="300" height = "300"/>
-</center>
+<div align="center">
+<img src="CircosPlot_L1R1_ct1toct2.png" width="300" height = "300"/><img src="CircosPlot_L2R2_ct2toct1.png" width="300" height = "300"/>
+</div>
 
 
 #### LRLoop network plot
