@@ -29,7 +29,7 @@ Required inputs:
 2. _ligand_target_matrix_ct1_to_ct2, ligand_target_matrix_ct2_to_ct1, receptor_target_matrix_ct1_to_ct2 and receptor_target_matrix_ct2_to_ct1_
     1. Matrices resulted from STEP 1 ([Perform LRLoop analysis using custom GRNs](vignettes/Custom_GRNs.md))
 
-Remark: For the ligand_target and receptor_target matrices, users can also choose to skip STEP 1 and use a set of our pre-calculated matrices in the "Networks/DefaultNetworks/" folder in [google drive](https://drive.google.com/drive/folders/1WV0iSlAXCUwSZMSBnzsHdZc26RuyfunC?usp=sharing)
+<font color=red> Remark: For the ligand_target and receptor_target matrices, users can also choose to skip STEP 1 and use a set of our pre-calculated matrices in the "Networks/DefaultNetworks/" folder in [google drive](https://drive.google.com/drive/folders/1WV0iSlAXCUwSZMSBnzsHdZc26RuyfunC?usp=sharing) </font>
 
 
 ### LRLoop computation
