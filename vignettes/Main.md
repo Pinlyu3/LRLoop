@@ -596,7 +596,7 @@ pheatmap(L2R2score_matrix, scale = 'none', cluster_cols = FALSE, cluster_rows = 
 ```
 
 <div align="center">
-<img src="heatmap_L1R1_ct1toct2_nonescale.png" width="300" height = "800"/><img src="heatmap_L2R2_ct2toct1_nonescale.png" width="300" height = "800"/>
+<img src="heatmap_L1R1_ct1toct2_rowscale.png" width="300" height = "700"/><img src="heatmap_L1R1_ct1toct2_nonescale.png" width="300" height = "700"/><img src="heatmap_L2R2_ct2toct1_rowscale.png" width="300" height = "700"/><img src="heatmap_L2R2_ct2toct1_nonescale.png" width="300" height = "700"/>
 </div>
 
 
