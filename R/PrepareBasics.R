@@ -1,20 +1,18 @@
 #' Get a list of some basic data info
 #' @name PrepareBasics
-#' @param ct1obj Seurat objects of cell type1 and cell type2
-#' @param ct2obj Seurat objects of cell type1 and cell type2
-#' @param min_pct Cutoff value on the detection rate of genes in each cell type, each condition for the identification of "expressed" genes. A number between 0 and 1.
-#'          For example, min_pct = 0.1 means that for each cell type and condition, the genes that are detected in at least 10 percent of the cells are considered "expressed".
+#' @param ct1obj  Seurat objects of cell type1 and cell type2
+#' @param ct2obj  Seurat objects of cell type1 and cell type2
+#' @param min_pct Cutoff value on the detection rate of genes in each cell type, each condition for the identification of "expressed" genes. A number between 0 and 1. For example, min_pct = 0.1 means that for each cell type and condition, the genes that are detected in at least 10 percent of the cells are considered "expressed".
 #' @param geneset_ct1 Vectors of gene symbols considered as the target gene set of interest (for example, the differentailly expressed genes) in cell type1/cell type2 for the calculation of the nichenetr based ligand/receptor activity scores.  
 #' @param geneset_ct2 Vectors of gene symbols considered as the target gene set of interest (for example, the differentailly expressed genes) in cell type1/cell type2 for the calculation of the nichenetr based ligand/receptor activity scores.  
-#'
-#' @param lr_network Ligand-receptor network matrix with two columns "from" and "to", consisting of the gene symbols of the candidate ligands and receptors, respectively, in pairs.
-#' @param ligand_target_matrix_ct1_to_ct2 Matrix of ligand to target regulatory potential scores calculated by nichenetr's algorithm, from ligands expressed in cell type1 to targets in cell type2.  Ligand gene symbols in columns and target gene symbols in rows.
-#' @param ligand_target_matrix_ct2_to_ct1 Matrix of ligand to target regulatory potential scores calculated by nichenetr's algorithm, from ligands expressed in cell type2 to targets in cell type1.  Ligand gene symbols in columns and target gene symbols in rows.
-#' @param receptor_target_matrix_ct1_to_ct2 Matrix of receptor to target regulatory potential scores calculated by nichenetr's algorithm, from receptors expressed in cell type2 (that are cognate receptors of ligands expressed in cell type1) to targets in cell type2.  Receptor gene symbols in columns and target gene symbols in rows.
-#' @param receptor_target_matrix_ct2_to_ct1 Matrix of receptor to target regulatory potential scores calculated by nichenetr's algorithm, from receptors expressed in cell type1 (that are cognate receptors of ligands expressed in cell type2) to targets in cell type1.  Receptor gene symbols in columns and target gene symbols in rows.
-#' @param discrete_error_rate Value of the error_rate variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- FDR for cutoff_method "fdrtool" and "distribution"; number between 0 and 1 indicating which top fraction of target genes should be returned for cutoff_method "quantile".
-#' @param discrete_cutoff_method Value of the cutoff_method variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- Method to determine which genes can be considered as a target and which genes not, based on the regulatory probability scores. Possible options "distribution", "fdrtool" and "quantile".
-#' @param discrete_fdr_method Value of the fdr_method variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- Only relevant when cutoff_method is "fdrtool". Possible options: "global" and "local"
+#' @param lr_network: Ligand-receptor network matrix with two columns "from" and "to", consisting of the gene symbols of the candidate ligands and receptors, respectively, in pairs.
+#' @param ligand_target_matrix_ct1_to_ct2: Matrix of ligand to target regulatory potential scores calculated by nichenetr's algorithm, from ligands expressed in cell type1 to targets in cell type2.  Ligand gene symbols in columns and target gene symbols in rows.
+#' @param ligand_target_matrix_ct2_to_ct1: Matrix of ligand to target regulatory potential scores calculated by nichenetr's algorithm, from ligands expressed in cell type2 to targets in cell type1.  Ligand gene symbols in columns and target gene symbols in rows.
+#' @param receptor_target_matrix_ct1_to_ct2: Matrix of receptor to target regulatory potential scores calculated by nichenetr's algorithm, from receptors expressed in cell type2 (that are cognate receptors of ligands expressed in cell type1) to targets in cell type2.  Receptor gene symbols in columns and target gene symbols in rows.
+#' @param receptor_target_matrix_ct2_to_ct1: Matrix of receptor to target regulatory potential scores calculated by nichenetr's algorithm, from receptors expressed in cell type1 (that are cognate receptors of ligands expressed in cell type2) to targets in cell type1.  Receptor gene symbols in columns and target gene symbols in rows.
+#' @param discrete_error_rate: Value of the error_rate variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- FDR for cutoff_method "fdrtool" and "distribution"; number between 0 and 1 indicating which top fraction of target genes should be returned for cutoff_method "quantile".
+#' @param discrete_cutoff_method: Value of the cutoff_method variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- Method to determine which genes can be considered as a target and which genes not, based on the regulatory probability scores. Possible options: "distribution", "fdrtool" and "quantile".
+#' @param discrete_fdr_method: Value of the fdr_method variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- Only relevant when cutoff_method is "fdrtool". Possible options: "global" and "local"
 #' @return
 #'  Basics: A list with the following elements:
 #'  Basics$ave_expr_ct1: A matrix of average gene expression values (LogNormalized) in each condition in cell type1.  Gene symbols in rows, conditions in columns
@@ -38,7 +36,9 @@
 #'  Basics$myLRL: List of identified LRLoops:
 #'  Basics$myLRL$R1->L2_R2->L1: Matrix of LRLoops with columns "L1", "R1", "L2" and "R2" where L1-R1 are candidate ligand-receptor pairs from cell type1 to cell type2, L2-R2 are candidate ligand-receptor pairs from cell type2 to cell type1; L2 is a top target of R1, L1 is a top target of R2
 #'  Basics$myLRL$L1->L2_L2->L1: Matrix of LRLoops with columns "L1", "R1", "L2" and "R2" where L1-R1 are candidate ligand-receptor pairs from cell type1 to cell type2, L2-R2 are candidate ligand-receptor pairs from cell type2 to cell type1; L2 is a top target of L1, L1 is a top target of L2
-#' @import nichenetr tidyverse Seurat dplyr
+#'
+#'
+#' @import nichenetr tidyverse Seurat
 #' @export
 
 
@@ -46,7 +46,7 @@ PrepareBasics <- function(ct1obj, ct2obj, min_pct, geneset_ct1, geneset_ct2,
                           lr_network, ligand_target_matrix_ct1_to_ct2, receptor_target_matrix_ct1_to_ct2, ligand_target_matrix_ct2_to_ct1, receptor_target_matrix_ct2_to_ct1,
                           discrete_error_rate, discrete_cutoff_method, discrete_fdr_method) {
   
-  conditions = unique(ct1obj@meta.data[,'Condition'])
+  conditions = as.vector(unique(ct1obj@meta.data[,'Condition']))
   
   ### Expression data (LogNormalized)
   data_ct1 = ct1obj@assays$RNA@data
@@ -78,6 +78,22 @@ PrepareBasics <- function(ct1obj, ct2obj, min_pct, geneset_ct1, geneset_ct2,
                                    thresh_expr_from = thresh_expr_ct1, thresh_expr_to = thresh_expr_ct2, conditions = conditions)
   lr_expr_ct2_to_ct1 = get_expr_lr(lr_network = lr_network, 
                                    thresh_expr_from = thresh_expr_ct2, thresh_expr_to = thresh_expr_ct1, conditions = conditions)
+  
+  ### Print number of ligand-recepor pairs from ct1 to ct2 and from ct2 to ct1
+  numlr = matrix(0, nrow = (1+length(conditions)), ncol = 2)
+  rownames(numlr) = c(conditions, 'bind')
+  colnames(numlr) = c('num_lr_expr_ct1_to_ct2', 'num_lr_expr_ct2_to_ct1')
+  for (i in 1:length(conditions)) {
+    numlr[i,'num_lr_expr_ct1_to_ct2'] = nrow(lr_expr_ct1_to_ct2[['eachcondition']][[conditions[i]]])
+    numlr[i,'num_lr_expr_ct2_to_ct1'] = nrow(lr_expr_ct2_to_ct1[['eachcondition']][[conditions[i]]])
+  }
+  numlr['bind', 'num_lr_expr_ct1_to_ct2'] = nrow(lr_expr_ct1_to_ct2[['bind']])
+  numlr['bind', 'num_lr_expr_ct2_to_ct1'] = nrow(lr_expr_ct2_to_ct1[['bind']])
+  print("number of <expressed> ligand-receptor pairs:")
+  print(numlr)
+  
+  if (sum(numlr==0)>0) 
+    stop("Please relax the criteria defining <expressed> genes, or remove the condition(s) with no <expressed> ligand-receptor pairs in either direction (ct1 to ct2, or, ct2 to ct1).")
   
   ### Ligand and receptor regulatory potential analysis (nichenetr scores)
   background_expr_genes_ct2 = genes_thresh_expr_ct2 %>% .[. %in% rownames(ligand_target_matrix_ct1_to_ct2)]
