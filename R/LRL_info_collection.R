@@ -2,29 +2,30 @@
 #'
 #' @name LRL_info_collection
 #' @param LRloop_network An LRloop network matrix with columns "L1", "R1", "L2" and "R2".
-#' @param ave_expr_ct1  Matrix of average expression value of each gene in each condition in ct1/ct2 cells with genes in rows and conditions in columns.
-#' @param ave_expr_ct2  Matrix of average expression value of each gene in each condition in ct1/ct2 cells with genes in rows and conditions in columns.
+#' @param LRL_eachcondition List of LRloop networks in each condition.
+#' @param ave_expr_ct1 Matrix of average expression value of each gene in each condition in ct1/ct2 cells with genes in rows and conditions in columns.
+#' @param ave_expr_ct2 Matrix of average expression value of each gene in each condition in ct1/ct2 cells with genes in rows and conditions in columns.
 #' @param pct_expr_ct1 Matrix of fraction of ct1/ct2 cells that expressed each gene in each condition with genes in rows and conditions in columns.
 #' @param pct_expr_ct2 Matrix of fraction of ct1/ct2 cells that expressed each gene in each condition with genes in rows and conditions in columns.
-#' @param DEGinfo_ct1  List of two elements.  The first element DEGinfo_ct1/ct2$DEG is a list where each element is a matrix with genes in rows and at least two colomns "ave_log2FC" and "p_val_adj";  The second element DEGinfo_ct1/ct2$DEgenes is a vector that contains the gene symbols of DEGs in ct1/ct2.
-#' @param DEGinfo_ct2  List of two elements.  The first element DEGinfo_ct1/ct2$DEG is a list where each element is a matrix with genes in rows and at least two colomns "ave_log2FC" and "p_val_adj";  The second element DEGinfo_ct1/ct2$DEgenes is a vector that contains the gene symbols of DEGs in ct1/ct2.
+#' @param DEGinfo_ct1 List of two elements.  The first element DEGinfo_ct1/ct2$DEG is a list where each element is a matrix with genes in rows and at least two colomns "ave_log2FC" and "p_val_adj";  The second element DEGinfo_ct1/ct2$DEgenes is a vector that contains the gene symbols of DEGs in ct1/ct2.
+#' @param DEGinfo_ct2 List of two elements.  The first element DEGinfo_ct1/ct2$DEG is a list where each element is a matrix with genes in rows and at least two colomns "ave_log2FC" and "p_val_adj";  The second element DEGinfo_ct1/ct2$DEgenes is a vector that contains the gene symbols of DEGs in ct1/ct2.
 #' @param genes_cluster_ct1 User defined ct1/ct2 gene clustering vector (integers 0,1,2,...) with the name of each element the corresponding gene symbol 
 #' @param genes_cluster_ct2 User defined ct1/ct2 gene clustering vector (integers 0,1,2,...) with the name of each element the corresponding gene symbol 
-#' @param L1R1_cluster User defined ct1 to ct2/ct2 to ct1 ligand-receptor pair clustering vector (integers 0,1,2,...) with the name of each element the corresponding ligand-receptor gene symbols (in the form of L-R)
-#' @param L2R2_cluster User defined ct1 to ct2/ct2 to ct1 ligand-receptor pair clustering vector (integers 0,1,2,...) with the name of each element the corresponding ligand-receptor gene symbols (in the form of L-R)
+#' @param L1R1_cluster  User defined ct1 to ct2/ct2 to ct1 ligand-receptor pair clustering vector (integers 0,1,2,...) with the name of each element the corresponding ligand-receptor gene symbols (in the form of L-R)
+#' @param L2R2_cluster  User defined ct1 to ct2/ct2 to ct1 ligand-receptor pair clustering vector (integers 0,1,2,...) with the name of each element the corresponding ligand-receptor gene symbols (in the form of L-R)
 #' @param valuse_ct1 Matrix of the values to be used in the calculation of LRscores and L1R1L2R2 LoopScores with genes in rows and conditions in columns corresponding to ct1/ct2.  
 #' @param valuse_ct2 Matrix of the values to be used in the calculation of LRscores and L1R1L2R2 LoopScores with genes in rows and conditions in columns corresponding to ct1/ct2.  
 #' @param scalar A number, plays the role of a scalar in the calculation of LRscores when LRscore_method is set to 'scsigr' or individual_scale'.
 #' @param ScoreConditionIdx Column indices of valuse_ct1 (same as that of valuse_ct2) to be used in the calculation of the maximum or mean LRscores and LoopScores across conditions
 #' @param LRscore_method Method used in the calculation of LRscores, available options are 'mean', 'individual_scale', 'individual_scale_exp', 'product', 'bias_receptor' and 'scsigr' 
-#' @param LoopScore_method  Method used in the calculation of L1R1L2R2 LoopScores, available options are "ave_geo" and "ave_alg"
+#' @param LoopScore_method Method used in the calculation of L1R1L2R2 LoopScores, available options are "ave_geo" and "ave_alg"
 #' @param LRlfcscore_method Method used in the calculation of logFC-based LRscores, available options are 'mean', 'individual_scale', 'individual_scale_exp', 'product', 'bias_receptor' and 'scsigr' 
 #' @param LooplfcScore_method Method used in the calculation of logFC-based L1R1L2R2 LoopScores, available options are "ave_geo" and "ave_alg" 
 #' @param ligand_activities_matrix_ct1_to_ct2 Ligand/receptor_activities_matrix_ct1_to_ct2 calculated by nichenetr's algorithm
 #' @param receptor_activities_matrix_ct1_to_ct2 Ligand/receptor_activities_matrix_ct1_to_ct2 calculated by nichenetr's algorithm
 #' @param ligand_activities_matrix_ct2_to_ct1 Ligand/receptor_activities_matrix_ct2_to_ct1 calculated by nichenetr's algorithm
 #' @param receptor_activities_matrix_ct2_to_ct1 Ligand/receptor_activities_matrix_ct2_to_ct1 calculated by nichenetr's algorithm
-#'
+#' 
 #' @return
 #'  LRL_info_collection: a list of matrices:
 #'  LRL_info_collection$'LRloop expression': The LRloop network, together with the average expression value of each gene and the fraction of cells expressing each gene in the corresponding cell type and each condition
@@ -43,14 +44,23 @@
 #'  LRL_info_collection$'L2R2 expr_score': The LRscores of the L2R2 pairs calculated based on valuse_ct2 and valuse_ct1
 #'  LRL_info_collection$'L2R2 logFC_score': The LRscores of the L2R2 pairs calculated based on the absolute values of the logFC of L2 and R2
 #'  LRL_info_collection$'L2R2 nichenet_score': The nichenet algorithm based scores of L2 and R2 in each L2R2 pair
+#'  LRL_info_collection$'L1R1 expr_score-LRLoop_filtered': The LRscores of L1R1 pairs calculated based on valuse_ct1 and valuse_ct2 and filtered by LRloops in each condition, that is, in each condition, an LRscore will be set to 0 if the L1R1 pair does not form any LRloop in that conditon. 
+#'  LRL_info_collection$'L2R2 expr_score-LRLoop_filtered': The LRscores of L2R2 pairs calculated based on valuse_ct2 and valuse_ct1 and filtered by LRloops in each condition, that is, in each condition, an LRscore will be set to 0 if the L2R2 pair does not form any LRloop in that conditon.
+#'
 #'
 #' @import nichenetr tidyverse Seurat
 #' @export
 
 
 
+
+
+
+
+
 LRL_info_collection <- function(valuse_ct1, valuse_ct2, scalar, ScoreConditionIdx, LRscore_method, LoopScore_method, LRlfcscore_method, LooplfcScore_method,
                                 LRloop_network, 
+                                LRL_eachcondition,
                                 ave_expr_ct1, ave_expr_ct2,
                                 pct_expr_ct1, pct_expr_ct2,
                                 DEGinfo_ct1, DEGinfo_ct2,
@@ -357,11 +367,40 @@ LRL_info_collection <- function(valuse_ct1, valuse_ct2, scalar, ScoreConditionId
   ################################################################## 'L2R2 nichenet_score' ##################################################################
   LRloop_info[[16]] = unique(LRloop_info[[14]][,c("L2", "R2", "L2_nichenetscore", "R2_nichenetscore")])
   
+  ################################################################## 'L1R1 expr_score-LRLoop_filtered' ##################################################################
+  A = unique(LRloop_info[[8]][,c("L1", "R1",
+                                 sprintf("L1R1_exprscore_%s", colnames(valuse_ct1)))])
+  for (j in 1:ncol(valuse_ct1)) {
+    condshort = colnames(valuse_ct1)[j]
+    condlong = sprintf("L1R1_exprscore_%s", colnames(valuse_ct1)[j])
+    LRset = unique(LRL_eachcondition[[condshort]][['R1->L2 & R2->L1']][,c("L1", "R1")])
+    for (i in 1:nrow(A)) {
+      idx = which(LRset[,'L1']==A[i,'L1'] & LRset[,'R1']==A[i,'R1'])
+      A[i,condlong] = as.numeric(A[i,condlong])*(length(idx)>0)
+    }
+  }
+  LRloop_info[[17]] = A
+  
+  ################################################################## 'L2R2 expr_score-LRLoop_filtered' ##################################################################
+  A = unique(LRloop_info[[8]][,c("L2", "R2",
+                                 sprintf("L2R2_exprscore_%s", colnames(valuse_ct1)))])
+  for (j in 1:ncol(valuse_ct1)) {
+    condshort = colnames(valuse_ct1)[j]
+    condlong = sprintf("L2R2_exprscore_%s", colnames(valuse_ct1)[j])
+    LRset = unique(LRL_eachcondition[[condshort]][['R1->L2 & R2->L1']][,c("L2", "R2")])
+    for (i in 1:nrow(A)) {
+      idx = which(LRset[,'L2']==A[i,'L2'] & LRset[,'R2']==A[i,'R2'])
+      A[i,condlong] = as.numeric(A[i,condlong])*(length(idx)>0)
+    }
+  }
+  LRloop_info[[18]] = A
+  
   #############################################################################################################################################################
   names(LRloop_info) = c("LRloop expression", "L1R1 expression", "L2R2 expression", "LRloopDEG", "L1R1DEG", "L2R2DEG", 
                          "L1R1L2R2 clusters", "LRloop expr_score", "L1R1 expr_score", "L2R2 expr_score", 
                          "LRloop logFC_score", "L1R1 logFC_score", "L2R2 logFC_score",
-                         "LRloop nichenet_score", "L1R1 nichenet_score", "L2R2 nichenet_score")
+                         "LRloop nichenet_score", "L1R1 nichenet_score", "L2R2 nichenet_score",
+                         "L1R1 expr_score-LRLoop_filtered", "L2R2 expr_score-LRLoop_filtered")
   
   return(LRloop_info)
 }
