@@ -394,11 +394,6 @@ writeLRL(LRloop_info_sub, filedir2)
 ``` 
 
 
-
-Here as an example, we filter the LRloop_network by requiring:
-- a) L1 and L2 are differentially expressed in some NMDA time point compared to control mmP60
-- b) The L1_activityscore and the R1_activityscore calculated by nichenetr's algorithm are no less than 0.05
-
 ``` r
 idx = which(LRloop_info$LRloopDEG[,'L1_diff'] == 'TRUE' & LRloop_info$LRloopDEG[,'L2_diff'] == 'TRUE' &
               as.numeric(LRloop_info$`LRloop nichenet_score`[,'L1_nichenetscore']) >= 0.05 & 
