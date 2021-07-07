@@ -316,7 +316,7 @@ load("ExampleData/Clusters_kmeans/L2R2_cluster.RData")
 
 
 <div align="center">
-<img src="L1R1_kmeanscluster.png" width="300" height = "400"/><img src="L2R2_kmeanscluster.png" width="300" height = "450"/>
+<img src="L1R1_kmeanscluster.png" width="300" height = "400"/><img src="L2R2_kmeanscluster.png" width="300" height = "400"/>
 </div>
 
 
