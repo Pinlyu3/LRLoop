@@ -34,10 +34,33 @@ Remark: For the ligand_target and receptor_target matrices, users can also choos
 
 ### LRLoop computation
 
+#### Identify the conditions of interest
+
+#### Differential expression analysis for all condition pairs of interest (if length(conditions) >= 2)
+
+#### Prepare a list of some basic data info
+
+#### Get the LRloop network matrix
+
+#### (Optional) Calculate LRscores of the expressed L1R1 and L2R2 pairs
+
+#### Cluster the genes in ct1, ct2, and expressed L1-R1 and L2-R2 pairs
+
+#### LRloop info collection and write into .csv files 
+
+#### (Optional) Filter the LRloops, then collect and write the corresponding LRloop info again
+
+
 
 
 
 ### LRLoop plots
+
+#### L1R1/L2R2 Circos plot
+
+#### LRLoop network plot
+
+#### Plot specified L1R1 and L2R2 scores across conditions of interest in heatmaps (if length(conditions) >= 2)
 
 
 
