@@ -288,6 +288,13 @@ load("ExampleData/Clusters_kmeans/genes_cluster_ct2.RData")
 
 ```
 
+
+<div align="center">
+<img src="kmeanscluster_DEG_ct1.png" width="300" height = "500"/><img src="kmeanscluster_DEG_ct2.png" width="300" height = "500"/>
+</div>
+
+
+
 L1R1_cluster, L2R2_cluster: Vector of cluster-names (integers 0,1,2,...) with the name of each element the corresponding ligand-receptor pair gene symbols.
 
 Remark: The clusters are denoted by consecutive integers from 0.  Users can cluster them differently as preferred.
