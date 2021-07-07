@@ -394,6 +394,7 @@ idx = which(LRloop_info$LRloopDEG[,'L1_diff'] == 'TRUE' & LRloop_info$LRloopDEG[
               as.numeric(LRloop_info$`LRloop nichenet_score`[,'R1_nichenetscore']) >= 0.05)
 LRloop_network_sub = LRloop_network[idx,]
 LRloop_info_sub = LRL_info_collection(LRloop_network = LRloop_network_sub, # Note that compared to the first time running the function "LRL_info_collection", this is the only variable needs to be changed
+                                      LRL_eachcondition = Basics$myLRL$eachcondition,
                                       valuse_ct1 = Basics$ave_expr_ct1, valuse_ct2 = Basics$ave_expr_ct2, scalar = overallaveexprm, 
                                       ScoreConditionIdx = c(1,2,3,4,5,6,7,9), 
                                       LRscore_method = 'scsigr', LoopScore_method = "ave_geo",
