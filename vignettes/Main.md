@@ -461,6 +461,7 @@ names(color_LR) = c("0", "1", "2", "3", "4", "5")
 ```
 
 
+
 #### L1R1/L2R2 Circos plot
 ``` r
 ### Circos plot of the L1R1 pairs from cell type1 to cell type2:
@@ -503,8 +504,6 @@ print_LRL_Score_options(LRloop_info_sub) # Print options for the variable "Which
 
 
 
-
-
 Set colors for heatmaps:
 ``` r
 my.breaks = c(seq(-3, 0, by=0.1), seq(0.1, 20, by=1)) 
@@ -516,6 +515,13 @@ plotLRL(LRloop_info = LRloop_info_sub, WhichL1R1L2R2Score = "L1R1L2R2_exprScore_
         nodecolors = c("turquoise", "violet"), labelcolor = "black", nodesize = 3, edgecutoff = 0, labelsize = 0.7, edgecolor = 'orange', 
         pheatmapcolor = pheatmapcolor, pheatmap_dist = 'euclidean')
 ```
+
+
+<div align="center">
+<img src="LRloop_network_sub.png" width="500" height = "500"/>
+</div>
+
+
 
 
 #### Plot specified L1R1 and L2R2 scores across conditions of interest in heatmaps (if length(conditions) >= 2)
@@ -576,6 +582,9 @@ pheatmap(L2R2score_matrix, scale = 'none', cluster_cols = FALSE, cluster_rows = 
 #Remark: Example figures are save in "ExampleData/outputs_filtered/"
 ```
 
+<div align="center">
+<img src="heatmap_L1R1_ct1toct2_nonescale.png" width="300" height = "800"/><img src="heatmap_L2R2_ct2toct1_nonescale.png" width="300" height = "800"/>
+</div>
 
 
 
