@@ -115,7 +115,7 @@ load("ExampleData/receptor_target_matrix_ct2_to_ct1.RData")
 #### Identify the conditions of interest
 
 ``` r
-conditions = unique(ct1obj@meta.data[,'Condition'])
+conditions = as.vector(unique(ct1obj@meta.data[,'Condition']))
 
 #> conditions
 #[1] "mmP60"      "mmNMDA03"   "mmNMDA06"   "mmNMDA12"   "mmNMDA24"   "mmNMDA36"   "mmNMDA48"   "mmNMDA48FI" "mmNMDA72"  
@@ -227,10 +227,14 @@ overallaveexprm = log1p(mean(expm1(as.matrix(seuratobj@assays$RNA@data))))
 ``` r
 LRscore_ct1_to_ct2 = get_LRscores(lr_expr = Basics$lr_expr_ct1_to_ct2$bind, conditions = conditions, 
                                   value.use_from = Basics$ave_expr_ct1, value.use_to = Basics$ave_expr_ct2, 
-                                  scalar = overallaveexprm, LRscore_method = 'scsigr')
+                                  scalar = overallaveexprm, LRscore_method = 'scsigr',
+                                  LRL_eachcondition = Basics$myLRL$eachcondition,
+                                  LRL_filter = 'none')
 LRscore_ct2_to_ct1 = get_LRscores(lr_expr = Basics$lr_expr_ct2_to_ct1$bind, conditions = conditions, 
                                   value.use_from = Basics$ave_expr_ct2, value.use_to = Basics$ave_expr_ct1, 
-                                  scalar = overallaveexprm, LRscore_method = 'scsigr') 
+                                  scalar = overallaveexprm, LRscore_method = 'scsigr',
+                                  LRL_eachcondition = Basics$myLRL$eachcondition,
+                                  LRL_filter = 'none')
 
 #> head(Basics$lr_expr_ct1_to_ct2$bind)
 #     from    to     
@@ -257,6 +261,10 @@ LRscore_ct2_to_ct1 = get_LRscores(lr_expr = Basics$lr_expr_ct2_to_ct1$bind, cond
 #[4,] "Vtn"   "Itgav" "0.720337468653989" "0.761382700046915" "0.781760361274263" "0.749407138949124" "0.648311455923783" "0.755421130422588" "0.716382339902723" "0.620057544015233" "0.695830983638457"
 #[5,] "Vtn"   "Itgb5" "0.679236095429675" "0.569209173911564" "0.564360896574841" "0.533313398662959" "0.514333498614948" "0.666463571454103" "0.624268666392938" "0.522903284832386" "0.567473065827716"
 #[6,] "Igf1"  "Igf1r" "0.735677425105909" "0.457142015793351" "0"                 "0.328033574092079" "0.28576613285034"  "0.751907754733162" "0.723709627196896" "0.518187031914579" "0.802080634951742"
+
+#remark:
+#LRL_eachcondition: List of LRloop networks in each condition.
+#LRL_filter: "L1R1", "L2R2" or "none".  "L1R1" ("L2R2"): The LR pairs are from ct1 (ct2) to ct2 (ct1) and apply the LRloop filter in each condition, that is, in each condition, an LRscore will be set to 0 if the LR pair does not form any LRloop in that conditon. "none": No LRloop filter applied. 
 ```
 
 
@@ -318,6 +326,7 @@ names(L2R2_cluster) = lr_expr_ct2_to_ct1_linked
 
 ``` r
 LRloop_info = LRL_info_collection(LRloop_network = LRloop_network,
+                                  LRL_eachcondition = Basics$myLRL$eachcondition,
                                   valuse_ct1 = Basics$ave_expr_ct1, valuse_ct2 = Basics$ave_expr_ct2, scalar = overallaveexprm, 
                                   ScoreConditionIdx = c(1,2,3,4,5,6,7,9), # Check the colnames of valuse_ct1 before set this vector up.  In this example, suppose we don't want to consider the condition "mmNMDA48FI": colnames(Basics$ave_expr_ct1): [1] "mmP60" "mmNMDA03" "mmNMDA06" "mmNMDA12" "mmNMDA24" "mmNMDA36" "mmNMDA48" "mmNMDA48FI" "mmNMDA72"  
                                   LRscore_method = 'scsigr', LoopScore_method = "ave_geo",
@@ -333,8 +342,11 @@ LRloop_info = LRL_info_collection(LRloop_network = LRloop_network,
                                   receptor_activities_matrix_ct2_to_ct1 = Basics$receptor_activities_matrix_ct2_to_ct1)
 
 #> names(LRloop_info)
-#[1] "LRloop expression"     "L1R1 expression"       "L2R2 expression"       "LRloopDEG"             "L1R1DEG"               "L2R2DEG"               "L1R1L2R2 clusters"     "LRloop expr_score"     "L1R1 expr_score"       "L2R2 expr_score"      
-#[11] "LRloop logFC_score"    "L1R1 logFC_score"      "L2R2 logFC_score"      "LRloop nichenet_score" "L1R1 nichenet_score"   "L2R2 nichenet_score" 
+#[1] "LRloop expression"               "L1R1 expression"                 "L2R2 expression"                 "LRloopDEG"                      
+#[5] "L1R1DEG"                         "L2R2DEG"                         "L1R1L2R2 clusters"               "LRloop expr_score"              
+#[9] "L1R1 expr_score"                 "L2R2 expr_score"                 "LRloop logFC_score"              "L1R1 logFC_score"               
+#[13] "L2R2 logFC_score"                "LRloop nichenet_score"           "L1R1 nichenet_score"             "L2R2 nichenet_score"            
+#[17] "L1R1 expr_score-LRLoop_filtered" "L2R2 expr_score-LRLoop_filtered"
 
 filedir1 = "ExampleData/outputs_complete/" # Specify a folder directory to save the .csv files
 writeLRL(LRloop_info, filedir1)
@@ -502,8 +514,13 @@ plotLRL(LRloop_info = LRloop_info_sub, WhichL1R1L2R2Score = "L1R1L2R2_exprScore_
 
 Prepair the data
 ``` r
-L1R1score_matrix = take_LR_expr_score(LRloop_info = LRloop_info_sub, LRpair = 'L1R1')
-L2R2score_matrix = take_LR_expr_score(LRloop_info = LRloop_info_sub, LRpair = 'L2R2')
+L1R1score_matrix = take_LR_expr_score(LRloop_info = LRloop_info_sub, LRpair = 'L1R1', LRL_filter = 'FALSE')
+L2R2score_matrix = take_LR_expr_score(LRloop_info = LRloop_info_sub, LRpair = 'L2R2', LRL_filter = 'FALSE')
+
+# Remark: We exact these LRscore matrices to plot heatmaps for all L1R1 and L2R2 pairs identified in our LRloop network in any condition.  
+# However, it is possible that, for example, some L1R1 pair is identified in condition A (it has at least one expressed L2R2 partner forming an LRloop with it in condition A), 
+# also expressed in condition B (such that its LRscore in condition B can be positive if it is caculated directly from the expression levels), but does not form any LRloop (has no expressed L2R2 partner) in condition B.  
+# In this case, we can make these LRscores more condition-wise-LRloop-stringent and choose to set the LRscore of such L1R1 pair in condition B to 0 by setting LRL_filter = 'TRUE'.
 
 #> head(L1R1score_matrix)
 #            L1R1_exprscore_mmP60 L1R1_exprscore_mmNMDA03 L1R1_exprscore_mmNMDA06 L1R1_exprscore_mmNMDA12 L1R1_exprscore_mmNMDA24 L1R1_exprscore_mmNMDA36 L1R1_exprscore_mmNMDA48 L1R1_exprscore_mmNMDA48FI L1R1_exprscore_mmNMDA72
