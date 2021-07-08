@@ -9,6 +9,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
+    limma,
     nichenetr,
     tidyverse,
     Seurat,
@@ -21,5 +22,7 @@ Imports:
     pheatmap,
     stats,
     utils
-Remotes: github::saeyslab/nichenetr
+Remotes: 
+    github::saeyslab/nichenetr
+    bioc::3.13/limma
 RoxygenNote: 7.1.1
