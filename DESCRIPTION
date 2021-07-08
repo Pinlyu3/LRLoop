@@ -22,7 +22,7 @@ Imports:
     pheatmap,
     stats,
     utils
-Remotes: 
-    github::saeyslab/nichenetr,
-    bioc::3.13/limma
+Remotes:
+    bioc::3.13/limma,
+    github::saeyslab/nichenetr
 RoxygenNote: 7.1.1
