@@ -21,4 +21,5 @@ Imports:
     pheatmap,
     stats,
     utils
+Remotes: github::saeyslab/nichenetr
 RoxygenNote: 7.1.1
