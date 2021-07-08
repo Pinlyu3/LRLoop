@@ -23,6 +23,6 @@ Imports:
     stats,
     utils
 Remotes: 
-    github::saeyslab/nichenetr
+    github::saeyslab/nichenetr,
     bioc::3.13/limma
 RoxygenNote: 7.1.1
