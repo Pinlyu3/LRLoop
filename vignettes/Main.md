@@ -38,6 +38,7 @@ Remark: For the ligand_target and receptor_target matrices, users can also choos
 
 
 **Load the Seurat objects "ct1obj" and "ct2obj" for celltype1 and celltype2 of interest**
+
 ``` r
 load("ExampleData/ct1obj.RData")
 load("ExampleData/ct2obj.RData")
@@ -274,6 +275,7 @@ LRscore_ct2_to_ct1 = get_LRscores(lr_expr = Basics$lr_expr_ct2_to_ct1$bind, cond
 
 
 **Cluster the genes in ct1, ct2, and expressed L1-R1 and L2-R2 pairs**
+
 Cluster the genes in ct1, ct2, and expressed L1-R1 and L2-R2 pairs (will be used to color the nodes and edges of Circos plots). These are also required inputs of the function "LRL_info_collection". 
 genes_cluster_ct1, genes_cluster_ct2: Vector of cluster-names (integers 0,1,2,...) with the name of each element the corresponding gene symbol.
 
