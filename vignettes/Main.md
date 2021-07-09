@@ -2,25 +2,28 @@
 
 
 ## STEP 1: Get ligand_target_matrix and receptor_target_matrix
+
 - [Perform LRLoop analysis using custom GRNs](https://github.com/Pinlyu3/LRLoop/blob/main/vignettes/Custom_GRNs.md)
 
 
 ## STEP 2: Prepare expression data
 
-1. Seurat objects (data LogNormalized) "ct1obj" and "ct2obj" of the cell types of interest (celltype1 (ct1) and celltype2 (ct2)):
-    1. their gene expression data "ct1obj@assays$RNA@data" and "ct2obj@assays$RNA@data" should have the same rows (genes in rows); 
-    2. their metadata "ct1obj<span>@<span>meta.data" and "ct2obj<span>@<span>meta.data" should both have the column "Condition" with the same set of conditions of interest.
+Seurat objects (data LogNormalized) "ct1obj" and "ct2obj" of the cell types of interest (celltype1 (ct1) and celltype2 (ct2)):
+
+1. their gene expression data "ct1obj@assays$RNA@data" and "ct2obj@assays$RNA@data" should have the same rows (genes in rows); 
+2. their metadata "ct1obj<span>@<span>meta.data" and "ct2obj<span>@<span>meta.data" should both have the column "Condition" with the same set of conditions of interest.
 
 
 ## STEP 3: LRLoop analysis
 
-### load packages
+### 3.1 load packages
 ``` r
 library(LRLoop)
 ```
 
-### load data
-##### Required inputs:
+### 3.2 load data
+
+**Required inputs**
 
 1. **Seurat objects (data LogNormalized) of celltype1 (ct1) and celltype2 (ct2) "ct1obj" and "ct2obj"**
     1. Their corresponding expression data "ct1obj@assays$RNA@data" and "ct2obj@assays$RNA@data" should have the same rows (genes in rows).
@@ -29,11 +32,12 @@ library(LRLoop)
 2. **ligand_target_matrix_ct1_to_ct2, ligand_target_matrix_ct2_to_ct1, receptor_target_matrix_ct1_to_ct2 and receptor_target_matrix_ct2_to_ct1**
     1. Matrices resulted from STEP 1 ([Perform LRLoop analysis using custom GRNs](https://github.com/Pinlyu3/LRLoop/blob/main/vignettes/Custom_GRNs.md))
 
+
 Remark: For the ligand_target and receptor_target matrices, users can also choose to skip STEP 1 and use a set of our pre-calculated matrices in the "Networks/DefaultNetworks/" folder in [google drive](https://drive.google.com/drive/folders/1WV0iSlAXCUwSZMSBnzsHdZc26RuyfunC?usp=sharing)
 
 
 
-#### Load the Seurat objects "ct1obj" and "ct2obj" for celltype1 and celltype2 of interest
+**Load the Seurat objects "ct1obj" and "ct2obj" for celltype1 and celltype2 of interest**
 ``` r
 load("ExampleData/ct1obj.RData")
 load("ExampleData/ct2obj.RData")
@@ -52,9 +56,10 @@ load("ExampleData/ct2obj.RData")
 #[1] "mmP60"      "mmNMDA03"   "mmNMDA06"   "mmNMDA12"   "mmNMDA24"   "mmNMDA36"   "mmNMDA48"   "mmNMDA48FI" "mmNMDA72"
 ``` 
 
-#### Load ligand-receptor network and ligand/receptor-target potential matrices
+**Load ligand-receptor network and ligand/receptor-target potential matrices**
 
 Remark: In this example, these ligand/receptor_target_matrix_* were calculated based on the lr_network, sig_network and gr_networks filtered by the genes detected in microglia or MG, respectively
+
 
 ``` r
 load("ExampleData/lr_network.RData")
@@ -110,9 +115,9 @@ load("ExampleData/receptor_target_matrix_ct2_to_ct1.RData")
 
 
 
-### LRLoop computation
+### 3.3 LRLoop computation
 
-#### Identify the conditions of interest
+**Identify the conditions of interest**
 
 ``` r
 conditions = as.vector(unique(ct1obj@meta.data[,'Condition']))
@@ -123,13 +128,13 @@ conditions = as.vector(unique(ct1obj@meta.data[,'Condition']))
 
 
 
-#### Differential expression analysis for all condition pairs of interest (if length(conditions) >= 2)
+**Differential expression analysis for all condition pairs of interest (if length(conditions) >= 2)**
 
 Remark: Users can use other methods to find differentially expressed genes of interest, just note that the results of this step should be two lists "DEGinfo_ct1" and "DEGinfo_ct2" in which:
-- "DEGinfo_ct1$DEG" and "DEGinfo_ct2$DEG" are lists where each element of them stores the DEA results for one pair of conditions of interest, which is a matrix with genes in rows and at least two colomns "ave_log2FC" and "p_val_adj"  
-- "DEGinfo_ct1$DEgenes" and "DEGinfo_ct2$DEgenes" are vectors of differentially expressed gene symbols (the union of the DEGs resulted from all pairs of conditions of interest)
+- "DEGinfo_ct1$DEG" and "DEGinfo_ct2$DEG" are lists where each element of them stores the DEA results for one pair of conditions of interest, which is a matrix with genes in rows and at least two colomns "ave_log2FC" and "p_val_adj".
+- "DEGinfo_ct1$DEgenes" and "DEGinfo_ct2$DEgenes" are vectors of differentially expressed gene symbols.(the union of the DEGs resulted from all pairs of conditions of interest)
 
-**In this example, for each cell type (microglia and MG), we perform DEA between each NMDA time point and mmP60 (control) and collect the union of all the DEGs**
+In this example, for each cell type (microglia and MG), we perform DEA between each NMDA time point and mmP60 (control) and collect the union of all the DEGs
 
 
 ``` r
@@ -167,7 +172,7 @@ DEGinfo_ct2$DEgenes = DEGinfo_ct2$DEgenes[sample(length(DEGinfo_ct2$DEgenes), 0.
 
 
 
-#### Prepare a list of some basic data info
+**Prepare a list of some basic data info**
 
 ``` r
 Basics = PrepareBasics(ct1obj, ct2obj, min_pct = 0.1, geneset_ct1 = DEGinfo_ct1$DEgenes, geneset_ct2 = DEGinfo_ct2$DEgenes,
@@ -191,7 +196,7 @@ names(Basics)
 [13] "ligand_activities_matrix_ct2_to_ct1"   "receptor_activities_matrix_ct2_to_ct1" "myLRL" 
 ```
 
-#### Get the LRloop network matrix
+**Get the LRloop network matrix**
 
 ``` r
 LRloop_network = Basics$myLRL$`R1->L2_R2->L1`
@@ -207,7 +212,7 @@ LRloop_network = Basics$myLRL$`R1->L2_R2->L1`
 ```
 
 
-#### (Optional) Calculate LRscores of the expressed L1R1 and L2R2 pairs
+**(Optional) Calculate LRscores of the expressed L1R1 and L2R2 pairs**
 
 ``` r
 overallaveexprm = log1p(mean(cbind(expm1(as.matrix(ct1obj@assays$RNA@data)), expm1(as.matrix(ct2obj@assays$RNA@data))))) # a scalar value used in the LRscore calculation when the method is set to 'scsigr' or individual_scale'
@@ -218,8 +223,8 @@ overallaveexprm = log1p(mean(cbind(expm1(as.matrix(ct1obj@assays$RNA@data)), exp
 
 Remark: If ct1obj and ct2obj are sub-objects taken from a big Seurat object, and one needs to investigate ligand-receptor interactions between multiple cell type pairs, to make the LRscores comparable across different cell type pairs, we should use the same scalar value for all calculations.
 
-For example, suppose the big Seurat object is seuratobj (data LogNormalized), one can calculate and save the following beforehand:
 
+For example, suppose the big Seurat object is seuratobj (data LogNormalized), one can calculate and save the following beforehand:
 ``` r
 overallaveexprm = log1p(mean(expm1(as.matrix(seuratobj@assays$RNA@data))))
 ```
@@ -268,7 +273,7 @@ LRscore_ct2_to_ct1 = get_LRscores(lr_expr = Basics$lr_expr_ct2_to_ct1$bind, cond
 ```
 
 
-#### Cluster the genes in ct1, ct2, and expressed L1-R1 and L2-R2 pairs
+**Cluster the genes in ct1, ct2, and expressed L1-R1 and L2-R2 pairs**
 Cluster the genes in ct1, ct2, and expressed L1-R1 and L2-R2 pairs (will be used to color the nodes and edges of Circos plots). These are also required inputs of the function "LRL_info_collection". 
 genes_cluster_ct1, genes_cluster_ct2: Vector of cluster-names (integers 0,1,2,...) with the name of each element the corresponding gene symbol.
 
@@ -294,7 +299,6 @@ load("ExampleData/Clusters_kmeans/genes_cluster_ct2.RData")
 </div>
 
 
-
 L1R1_cluster, L2R2_cluster: Vector of cluster-names (integers 0,1,2,...) with the name of each element the corresponding ligand-receptor pair gene symbols.
 
 Remark: The clusters are denoted by consecutive integers from 0.  Users can cluster them differently as preferred.
@@ -312,14 +316,9 @@ load("ExampleData/Clusters_kmeans/L2R2_cluster.RData")
 #       1           1           1           3           1           1 
 ```
 
-
-
-
 <div align="center">
 <img src="L1R1_kmeanscluster.png" width="300" height = "400"/><img src="L2R2_kmeanscluster.png" width="300" height = "400"/>
 </div>
-
-
 
 
 
@@ -340,7 +339,7 @@ names(L2R2_cluster) = lr_expr_ct2_to_ct1_linked
 
 
 
-#### LRloop info collection and write into .csv files 
+**LRloop info collection and write into .csv files** 
 
 ``` r
 LRloop_info = LRL_info_collection(LRloop_network = LRloop_network,
@@ -372,17 +371,18 @@ writeLRL(LRloop_info, filedir1)
 
 
 
-#### (Optional) Filter the LRloops, then collect and write the corresponding LRloop info again
+**(Optional) Filter the LRloops, then collect and write the corresponding LRloop info again**
 
 Filter by user preferred LRloop_info based conditions: please check the .csv files from the last step with filenames like "LRloop \*\*\*.csv" or "L1R1L2R2 \*\*\*.csv" for filtering options:
 - The names of the list LRloop_info and the .csv files created from the last step are consistent.
-- LRloop expression.csv: The LRloop network, together with the average expression values of each gene and the detection rates of each gene in the corresponding cell types and each condition
-- LRloopDEG.csv: Differential expresssion information of the genes in LRloop_network 
-- L1R1L2R2 clusters.csv: User defined clusters of L1, R1, L2, R2, L1-R1 pairs and L2-R2 pairs
+- LRloop expression.csv: The LRloop network, together with the average expression values of each gene and the detection rates of each gene in the corresponding cell types and each condition.
+- LRloopDEG.csv: Differential expresssion information of the genes in LRloop_network.
+- L1R1L2R2 clusters.csv: User defined clusters of L1, R1, L2, R2, L1-R1 pairs and L2-R2 pairs.
 - LRloop expr_score.csv: The L1R1L2R2 LoopScore calculated based on valuse_ct1 and valuse_ct2
-- LRloop logFC_score.csv: The L1R1L2R2 LoopScore calculated based on the absolute values of the logFC of L1, R1, L2 and R2 (the ones ended with "max" and "mean" are the maximum and mean value of the scores calulated from all the conditions pairs under comparison; the ones ended with "maxlogFC_basedScore" and "maxlogFC_basedScore" are calculated directly from the maximum and mean values of the logFC absolute values across all comparisons)
-- LRloop nichenet_score.csv: The nichenet algorithm based scores of L1, R1, L2 and L2 in each L1R1L2R2 loop
-- The column names of these .csv files should be self-explanatory
+- LRloop logFC_score.csv: The L1R1L2R2 LoopScore calculated based on the absolute values of the logFC of L1, R1, L2 and R2. (the ones ended with "max" and "mean" are the maximum and mean value of the scores calulated from all the conditions pairs under comparison; the ones ended with "maxlogFC_basedScore" and "maxlogFC_basedScore" are calculated directly from the maximum and mean values of the logFC absolute values across all comparisons)
+- LRloop nichenet_score.csv: The nichenet algorithm based scores of L1, R1, L2 and L2 in each L1R1L2R2 loop.
+- The column names of these .csv files should be self-explanatory.
+
 
 Here as an example, we filter the LRloop_network by requiring:
 - a) L1 and L2 are differentially expressed in some NMDA time point compared to control mmP60
@@ -439,9 +439,9 @@ MostBasicLRinfo(LRloop_info = LRloop_info_sub)
 
 
 
-### LRLoop plots
+### 3.4 LRLoop plots
 
-Set up the colors of the L(ligand)nodes, R(receptor)nodes and LRedges for each ligand, receptor and LR cluster
+**Set up the colors of the L(ligand)nodes, R(receptor)nodes and LRedges for each ligand, receptor and LR cluster**
 
 ``` r
 color_L = c("gray","lightcoral","violet","mediumspringgreen","lightskyblue","goldenrod")
@@ -454,7 +454,7 @@ names(color_LR) = c("0", "1", "2", "3", "4", "5")
 
 
 
-#### L1R1/L2R2 Circos plot
+**L1R1/L2R2 Circos plot**
 ``` r
 ### Circos plot of the L1R1 pairs from cell type1 to cell type2:
 CircosPlot(LRscorematrix = LRscore_ct1_to_ct2, LRscore_conditions = conditions[2:9], LRloop_info = LRloop_info_sub, 
@@ -476,7 +476,7 @@ CircosPlot(LRscorematrix = LRscore_ct2_to_ct1, LRscore_conditions = conditions[2
 </div>
 
 
-#### LRLoop network plot
+**LRLoop network plot**
 Plot the LRloop network (users could also choose to plot the network in other softwares with the .csv files)
 The function plotLRL creates two types of plots (3 figures) in which the nodes are denoted in forms of A_L1_R1 and B_L2_R2:
 the ones starting with an "A_" are "L1_R1" pairs and those starting with a "B_" are "L2_R2" pairs
@@ -493,14 +493,12 @@ print_LRL_Score_options(LRloop_info_sub) # Print options for the variable "Which
 #[21] "L1R1L2R2_logFC_Score_mean"                "L1R1L2R2_maxlogFC_basedScore"             "L1R1L2R2_meanlogFC_basedScore"     
 ```
 
-
-
-
 Set colors for heatmaps:
 ``` r
 my.breaks = c(seq(-3, 0, by=0.1), seq(0.1, 20, by=1)) 
 pheatmapcolor = c(colorRampPalette(colors = c("gold", "dark orange"))(length(my.breaks)))
 ```
+
 Create plots:
 ``` r
 plotLRL(LRloop_info = LRloop_info_sub, WhichL1R1L2R2Score = "L1R1L2R2_exprScore_max", 
@@ -515,11 +513,12 @@ plotLRL(LRloop_info = LRloop_info_sub, WhichL1R1L2R2Score = "L1R1L2R2_exprScore_
 
 
 
+**Pheatmap plots**
 
-#### Plot specified L1R1 and L2R2 scores across conditions of interest in heatmaps (if length(conditions) >= 2)
+Plot specified L1R1 and L2R2 scores across conditions of interest in heatmaps (if length(conditions) >= 2)
 
 
-Prepair the data
+Prepair the data:
 ``` r
 L1R1score_matrix = take_LR_expr_score(LRloop_info = LRloop_info_sub, LRpair = 'L1R1', LRL_filter = 'FALSE')
 L2R2score_matrix = take_LR_expr_score(LRloop_info = LRloop_info_sub, LRpair = 'L2R2', LRL_filter = 'FALSE')
@@ -556,7 +555,6 @@ colnames(L2R2score_matrix) = conditions[c(1,2,3,4,5,6,7,9)]
 #Apoe_Sorl1  0.7435300 0.7304094 0.6442803 0.4853939 0.6819413 0.7918724 0.8345925 0.8490935
 #Tgfb1_Itgb8 0.5776929 0.8226347 0.7900120 0.6648106 0.5966116 0.6692205 0.6958490 0.7503173
 
-pheatmap plots
 
 ``` r
 my.breaks = c(seq(-3, 0, by=0.1), seq(0.1, 20, by=5)) 
