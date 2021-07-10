@@ -1,5 +1,5 @@
 # LRLoop
- [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing) ![example event parameter](https://github.com/Pinlyu3/LRLoop/actions/workflows/R-CMD-check.yaml/badge.svg)
+ [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing) ![example event parameter](https://github.com/Pinlyu3/LRLoop/actions/workflows/R-CMD-check/badge.svg)
 
 
 LRLoop is a full-featured R package for analyzing LR-Loops from bulk & single-cell RNA-seq data.
