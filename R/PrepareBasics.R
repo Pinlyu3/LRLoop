@@ -67,10 +67,12 @@ PrepareBasics <- function(ct1obj, ct2obj, min_pct, geneset_ct1, geneset_ct2,
   }
   
   ### Gene detection rates
+  print('1')
   pct_expr_ct1 = get_pct_expr(ct1obj, conditions)
   pct_expr_ct2 = get_pct_expr(ct2obj, conditions)
   
   ### Identify the "expressed" genes with a detection rate greater than a particular threshold
+  print('2')
   thresh_expr_ct1 = (pct_expr_ct1 > min_pct)*1
   thresh_expr_ct2 = (pct_expr_ct2 > min_pct)*1
   genes_thresh_expr_ct1 = rownames(thresh_expr_ct1)[rowSums(thresh_expr_ct1)>0]
