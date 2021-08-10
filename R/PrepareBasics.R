@@ -43,9 +43,12 @@
 
 
 PrepareBasics <- function(ct1obj, ct2obj, min_pct, geneset_ct1, geneset_ct2,
-                          lr_network, ligand_target_matrix_ct1_to_ct2, receptor_target_matrix_ct1_to_ct2, ligand_target_matrix_ct2_to_ct1, receptor_target_matrix_ct2_to_ct1,
-                          discrete_error_rate, discrete_cutoff_method, discrete_fdr_method) {
+                          lr_network, ligand_target_matrix_ct1_to_ct2, receptor_target_matrix_ct1_to_ct2, ligand_target_matrix_ct2_to_ct1, receptor_target_matrix_ct2_to_ct1,discrete_error_rate, discrete_cutoff_method, discrete_fdr_method) {
+  ######
+  library(Seurat)
+  library(Matrix)
   
+  ######
   conditions = as.vector(unique(ct1obj@meta.data[,'Condition']))
   
   ### Expression data (LogNormalized)
