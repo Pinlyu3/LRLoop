@@ -54,7 +54,7 @@ PrepareBasics <- function(ct1obj, ct2obj, min_pct, geneset_ct1, geneset_ct2,
   ### Expression data (LogNormalized)
   data_ct1 = ct1obj@assays$RNA@data
   data_ct2 = ct2obj@assays$RNA@data
-  
+  print('0')
   ### Average gene expression values in each condition 
   ave_expr_ct1 = log1p(AverageExpression(ct1obj, group.by = 'Condition')$RNA)
   ave_expr_ct2 = log1p(AverageExpression(ct2obj, group.by = 'Condition')$RNA)
