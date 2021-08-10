@@ -19,6 +19,7 @@ get_pct_expr <- function(seuratobj, conditions) {
   Idents(object = seuratobj) = 'Condition'
   for (i in 1:length(conditions)) {
     subdata = data[,WhichCells(seuratobj, idents = conditions[i])]
+    print(dim(subdata))
     pct_expr[,i] = rowSums(subdata >0)/ncol(subdata)
   }
   rownames(pct_expr) = rownames(data)
