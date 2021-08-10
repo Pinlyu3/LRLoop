@@ -12,6 +12,8 @@
 
 
 get_pct_expr <- function(seuratobj, conditions) {
+  library(Seurat)
+  library(Matrix)
   data = seuratobj@assays$RNA@data
   pct_expr = matrix(0, nrow = nrow(data), ncol = length(conditions))
   Idents(object = seuratobj) = 'Condition'
