@@ -14,10 +14,20 @@
 
 
 get_expr_lr <- function(lr_network, thresh_expr_from, thresh_expr_to, conditions) {
-  
+  #########
+  #########
   lr_expr_list = list()
   for (i in 1:length(conditions)) {
-    lr_expr_list[[i]] = lr_network[thresh_expr_from[lr_network[,'from'], conditions[i]]==1 & thresh_expr_to[lr_network[,'to'], conditions[i]]==1,]
+      from_index = as.character(lr_network[,'from'])
+      to_index = as.character(lr_network[,'to'])
+      condition_index = conditions[i]
+      ####
+      thresh_expr_from_cl = thresh_expr_from[which(rownames(thresh_expr_from) %in% from_index == T),condition_index]
+      thresh_expr_to_cl = thresh_expr_to[which(rownames(thresh_expr_to) %in% to_index == T),condition_index]
+      ####
+      k = which((lr_network$from %in% names(thresh_expr_from_cl[thresh_expr_from_cl==1]) == T) & (lr_network$to %in% names(thresh_expr_to_cl[thresh_expr_to_cl==1]) == T))
+      
+      lr_expr_list[[i]] = lr_network[k,]
   }
   names(lr_expr_list) = conditions
   
