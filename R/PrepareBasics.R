@@ -166,7 +166,6 @@ PrepareBasics <- function(ct1obj, ct2obj, min_pct, geneset_ct1, geneset_ct2,
                     "ligand_activities_matrix_ct1_to_ct2", "receptor_activities_matrix_ct1_to_ct2", 
                     "ligand_activities_matrix_ct2_to_ct1", "receptor_activities_matrix_ct2_to_ct1",
                     "myLRL")
-  
   return(Basics)
   
 }
