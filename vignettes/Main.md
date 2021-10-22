@@ -24,19 +24,32 @@ Normalized Seurat object of the cell types of interest (celltype1 and celltype2)
 ### 3.1 load packages
 ``` r
 library(LRLoop)
+library(nichenetr)
+library(tidyverse)
+library(RColorBrewer)
+library(writexl)
+library(Seurat)
+library(pheatmap)
+library(ggplot2)
+library(circlize)
+library(igraph)
 ```
 
-### 3.2 load data
+### 3.1 load data
 
 **Required inputs**
 
-1. **Seurat objects (data LogNormalized) of celltype1 (ct1) and celltype2 (ct2) "ct1obj" and "ct2obj"**
-    1. Their corresponding expression data "ct1obj@assays$RNA@data" and "ct2obj@assays$RNA@data" should have the same rows (genes in rows).
-    2. Their metadata "ct1obj<span>@<span>meta.data" and "ct2obj<span>@<span>meta.data" both have the column "Condition" with the same set of condtions of interest.
+3.2.1.  Seurat object (data LogNormalized) of celltype1 (ct1) and celltype2 (ct2) "ct1obj" and "ct2obj":
+    a) Their corresponding expression data "ct1obj@assays$RNA@data" and "ct2obj@assays$RNA@data" should have the same rows (genes in rows);
+    b) Their metadata "ct1obj<span>@<span>meta.data" and "ct2obj<span>@<span>meta.data" both have the column "Condition" with the same set of condtions of interest.
 
-2. **ligand_target_matrix_ct1_to_ct2, ligand_target_matrix_ct2_to_ct1, receptor_target_matrix_ct1_to_ct2 and receptor_target_matrix_ct2_to_ct1**
-    1. Matrices resulted from STEP 1 ([Perform LRLoop analysis using custom GRNs](https://github.com/Pinlyu3/LRLoop/blob/main/vignettes/Custom_GRNs.md))
+3.2.2. lr_network with columns "from" (ligands in this column) and "to" (receptors in this column).
 
+3.2.3. ligand_target_matrix_ct1_to_ct2 & ligand_target_matrix_ct2_to_ct1: resulted from Construct_ligandreceptor_target_matrix.R. Users can also choose to use a default pre-calculated ligand_target_matrix.
+
+3.2.4. receptor_target_matrix_ct1_to_ct2 & receptor_target_matrix_ct2_to_ct1: resulted from Construct_ligandreceptor_target_matrix.R. Users can also choose to use a default pre-calculated receptor_target_matrix.
+
+3.2.4.1. Matrices resulted from STEP 1 ([Perform LRLoop analysis using custom GRNs](https://github.com/Pinlyu3/LRLoop/blob/main/vignettes/Custom_GRNs.md))
 
 Remark: For the ligand_target and receptor_target matrices, users can also choose to skip STEP 1 and use a set of our pre-calculated matrices in the "Networks/DefaultNetworks/" folder in [google drive](https://drive.google.com/drive/folders/1WV0iSlAXCUwSZMSBnzsHdZc26RuyfunC?usp=sharing)
 
