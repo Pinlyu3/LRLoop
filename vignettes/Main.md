@@ -7,7 +7,7 @@ Reference: https://github.com/saeyslab/nichenetr/blob/master/vignettes/model_con
 
 - [Perform LRLoop analysis using custom GRNs](https://github.com/Pinlyu3/LRLoop/blob/main/vignettes/Custom_GRNs.md)
 
-Remark: The calculation of the receptor_target_matrix uses some functions slightly modified from the ones in package nichenetr. Users could choose to skip this step and use a set of our pre-calculated default networks in the folder “Networks/DefaultNetworks”
+Remark: The calculation of the receptor_target_matrix uses some functions slightly modified from the ones in package nichenetr. Users could choose to skip this step and use a set of our pre-calculated default networks in the folder “Networks/DefaultNetworks”.
 
 
 
