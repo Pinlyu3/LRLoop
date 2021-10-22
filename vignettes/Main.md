@@ -1,14 +1,19 @@
 # Perform LRLoop analysis starting from Seurat objects
 
 
-## STEP 1: Get ligand_target_matrix and receptor_target_matrix
+## STEP 1: Get ligand_target_matrix and the receptor_target_matrix
+
+Reference: https://github.com/saeyslab/nichenetr/blob/master/vignettes/model_construction.md
 
 - [Perform LRLoop analysis using custom GRNs](https://github.com/Pinlyu3/LRLoop/blob/main/vignettes/Custom_GRNs.md)
+
+Remark: The calculation of the receptor_target_matrix uses some functions slightly modified from the ones in package nichenetr. Users could choose to skip this step and use a set of our pre-calculated default networks in the folder “Networks/DefaultNetworks”
+
 
 
 ## STEP 2: Prepare expression data
 
-Seurat objects (data LogNormalized) "ct1obj" and "ct2obj" of the cell types of interest (celltype1 (ct1) and celltype2 (ct2)):
+Normalized Seurat object of the cell types of interest (celltype1 and celltype2) "ct1obj" and "ct2obj":
 
 1. their gene expression data "ct1obj@assays$RNA@data" and "ct2obj@assays$RNA@data" should have the same rows (genes in rows); 
 2. their metadata "ct1obj<span>@<span>meta.data" and "ct2obj<span>@<span>meta.data" should both have the column "Condition" with the same set of conditions of interest.
