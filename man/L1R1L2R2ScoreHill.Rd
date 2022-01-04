@@ -7,16 +7,18 @@
 L1R1L2R2ScoreHill(myscore, corrector, lambda, mu, k)
 }
 \arguments{
-\item{myscore}{}
+\item{myscore}{myscore}
 
-\item{corrector}{}
+\item{corrector}{corrector}
 
-\item{lambda}{}
+\item{lambda}{lambda}
 
-\item{mu}{}
+\item{mu}{mu}
+
+\item{k}{k}
 }
 \value{
-z
+z z
 }
 \description{
 L1R1L2R2ScoreHill
