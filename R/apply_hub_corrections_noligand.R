@@ -10,11 +10,14 @@
 #' @export
 
 
-apply_hub_corrections_noligand = function(weighted_networks,sig_hub,gr_hub) {
+apply_hub_corrections_noligand = function(weighted_networks,sig_hub, gr_hub) {
+  
   requireNamespace("dplyr")
+  
   # load in weighted networks
   signaling_network = weighted_networks$sig
   regulatory_network = weighted_networks$gr
+  
   # apply hub correction signaling network
   if (sig_hub > 0){
     signaling_network = signaling_network %>% group_by(to) %>% count(to) %>% ungroup() %>% 
