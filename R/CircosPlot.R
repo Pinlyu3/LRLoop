@@ -20,6 +20,7 @@
 #' @export
 
 
+
 CircosPlot <- function(LRscorematrix, LRscore_conditions, LRloop_info, Ligand, Receptor, WhichLRscore,
                        color_L, color_R, color_LR,
                        width_same_ligand_cluster, width_different_ligand_cluster, width_ligand_receptor, width_same_receptor_cluster, width_different_receptor_cluster,
