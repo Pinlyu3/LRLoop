@@ -23,7 +23,7 @@ Normalized Seurat object of the cell types of interest (celltype1 and celltype2)
 
 ### 3.1 load packages
 ``` r
-library(LRLoop)
+# This script requires the following packages
 library(nichenetr)
 library(tidyverse)
 library(RColorBrewer)
@@ -31,6 +31,7 @@ library(writexl)
 library(Seurat)
 library(pheatmap)
 library(ggplot2)
+library(miceadds)
 library(circlize)
 library(igraph)
 ```
@@ -108,11 +109,6 @@ lr_network = lr_network[lr_network[,'from'] %in% rownames(ct1obj@assays$RNA@data
 
 
 ``` r
-load("ExampleData/ligand_target_matrix_ct1_to_ct2.RData")
-load("ExampleData/ligand_target_matrix_ct2_to_ct1.RData")
-load("ExampleData/receptor_target_matrix_ct1_to_ct2.RData")
-load("ExampleData/receptor_target_matrix_ct2_to_ct1.RData")
-
 load("ExampleData/ligand_target_matrix_ct1_to_ct2.RData")
 load("ExampleData/ligand_target_matrix_ct2_to_ct1.RData")
 load("ExampleData/receptor_target_matrix_ct1_to_ct2.RData")
