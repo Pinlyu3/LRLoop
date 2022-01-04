@@ -11,9 +11,12 @@
 #'  myLRL$'L1->L2_L2->L1': LRloop network with L1->L2 and L2->L1 (L2 is a target of L1 and L1 is a target of L2)
 #'  myLRL$'R1->L2_R2->L1': LRloop network with R1->L2 and R2->L1 (L2 is a target of R1 and L1 is a target of R2)
 #'  myLRL$'eachcondition': LRLoop networks in each condition
+#'  myLRL$'withdelay': A list of three elements: 
+#'  myLRL$'withdelay'$'L1->L2_L2->L1': LRloop network with L1->L2 and L2->L1 where L1-R1 and L2-R2 are not necessarily expressed in the same condition
+#'  myLRL$'withdelay'$'R1->L2_R2->L1': LRloop network with R1->L2 and R2->L1 where L1-R1 and L2-R2 are not necessarily expressed in the same condition
+#'  myLRL$'withdelay'$'eachcondition': Same as myLRL$'eachcondition'
 #' @import nichenetr tidyverse Seurat
 #' @export
-
 
 
 
@@ -42,8 +45,14 @@ get_LRL <- function(lr_expr_ct2_to_ct1, lr_expr_ct1_to_ct2,
   colnames(LRL_list_bind_L1L2L2L1) = c('L2','R2', 'L1', 'R1')
   colnames(LRL_list_bind_R1L2R2L1) = c('L2','R2', 'L1', 'R1')
   
-  myLRL = list(LRL_list_bind_L1L2L2L1, LRL_list_bind_R1L2R2L1, LRL_list)
-  names(myLRL) = c('L1->L2_L2->L1', 'R1->L2_R2->L1', 'eachcondition')
+  LRL_withdelay = make_LRL_list(lr_expr_ct2_to_ct1$bind, lr_expr_ct1_to_ct2$bind,
+                                ligand_target_matrix_binary_ct2_to_ct1, ligand_target_matrix_binary_ct1_to_ct2,
+                                receptor_target_matrix_binary_ct2_to_ct1, receptor_target_matrix_binary_ct1_to_ct2)
+  LRL_withdelay = list(LRL_withdelay$`L1->L2 & L2->L1`, LRL_withdelay$`R1->L2 & R2->L1`, LRL_list)
+  names(LRL_withdelay) = c('L1->L2_L2->L1', 'R1->L2_R2->L1', 'eachcondition')
+  
+  myLRL = list(LRL_list_bind_L1L2L2L1, LRL_list_bind_R1L2R2L1, LRL_list, LRL_withdelay)
+  names(myLRL) = c('L1->L2_L2->L1', 'R1->L2_R2->L1', 'eachcondition', 'withdelay')
   
   return(myLRL)
 }
