@@ -3,9 +3,8 @@
 #' @param LRloop_info A list resulted from the function 'LRL_info_collection' 
 #' @param LRpair 'L1R1' or "L2R2'
 #' @param LRL_filter "TRUE" or "FALSE.  "TRUE": Take the LRloop filtered version of the LRscores where in each condition, an LRscore is set to 0 if the LR pair does not form any LRloop in that conditon.  "FALSE": Take the LRscores with no LRloop filter applied. 
-#' @import nichenetr tidyverse Seurat
+#' @import tidyverse
 #' @export
-
 
 take_LR_expr_score <- function(LRloop_info, LRpair, LRL_filter = 'FALSE') {
   if (LRpair == 'L1R1' & LRL_filter == "FALSE") {

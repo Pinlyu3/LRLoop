@@ -5,11 +5,11 @@
 #' @param L2 A number, the L2 value used for the calculation of the LRloop score
 #' @param R2 A number, the R2 value used for the calculation of the LRloop score
 #' @param m A number, plays the role of a scalar in the calculation of LR scores when LRscore is set to 'scsigr' or individual_scale'
-#' @param LRscore The method of calculating the LR scores, available options are 'mean', 'individual_scale', 'individual_scale_exp', 'product', 'bias_receptor' and 'scsigr' 
-#' @param LoopScore The method of calculating the LRloop score, available options are "ave_geo" and "ave_alg"
+#' @param LRscore The method of calculating the LR scores, available options are 'mean', 'individual_scale', 'individual_scale_exp', 'product', 'bias_receptor' and 'scsigr'
+#' @param LoopScore The method of calculating the LRloop score, available options are "ave_geo" and "ave_ari"
 #' @return
 #'  The LRloop score of a L1-R1_L2-R2 pair
-#' @import nichenetr tidyverse Seurat
+#' @import tidyverse
 #' @export
 
 
@@ -41,7 +41,7 @@ L1R1L2R2Score = function(L1, R1, L2, R2, m, LRscore, LoopScore) {
     L1R1_L2R2 = (L1R1*L2R2)^(1/2)
   } else if (LoopScore == 'L1R1') {
     L1R1_L2R2 = L1R1
-  } else if (LoopScore == 'ave_alg') {
+  } else if (LoopScore == 'ave_ari') {
     L1R1_L2R2 = mean(c(L1R1, L2R2))
   } else {
     stop("Invalid LoopScore")

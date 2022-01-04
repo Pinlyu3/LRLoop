@@ -55,9 +55,6 @@
 
 
 
-
-
-
 LRL_info_collection <- function(valuse_ct1, valuse_ct2, scalar, ScoreConditionIdx, LRscore_method, LoopScore_method, LRlfcscore_method, LooplfcScore_method,
                                 LRloop_network, 
                                 LRL_eachcondition,
@@ -373,7 +370,16 @@ LRL_info_collection <- function(valuse_ct1, valuse_ct2, scalar, ScoreConditionId
   for (j in 1:ncol(valuse_ct1)) {
     condshort = colnames(valuse_ct1)[j]
     condlong = sprintf("L1R1_exprscore_%s", colnames(valuse_ct1)[j])
-    LRset = unique(LRL_eachcondition[[condshort]][['R1->L2 & R2->L1']][,c("L1", "R1")])
+    a = LRL_eachcondition[[condshort]][['R1->L2 & R2->L1']]
+    a_add = rbind(a, c('a','a','a','a'), c('b','b','b','b'))
+    if (nrow(a_add)==3) {
+      a = t(as.matrix(a))
+      LRset = a[,c("L1", "R1")]
+      LRset = t(as.matrix(LRset))
+    } else {
+      LRset = unique(a[,c("L1", "R1")])
+    }
+    
     for (i in 1:nrow(A)) {
       idx = which(LRset[,'L1']==A[i,'L1'] & LRset[,'R1']==A[i,'R1'])
       A[i,condlong] = as.numeric(A[i,condlong])*(length(idx)>0)
@@ -387,7 +393,16 @@ LRL_info_collection <- function(valuse_ct1, valuse_ct2, scalar, ScoreConditionId
   for (j in 1:ncol(valuse_ct1)) {
     condshort = colnames(valuse_ct1)[j]
     condlong = sprintf("L2R2_exprscore_%s", colnames(valuse_ct1)[j])
-    LRset = unique(LRL_eachcondition[[condshort]][['R1->L2 & R2->L1']][,c("L2", "R2")])
+    a = LRL_eachcondition[[condshort]][['R1->L2 & R2->L1']]
+    a_add = rbind(a, c('a','a','a','a'), c('b','b','b','b'))
+    if (nrow(a_add)==3) {
+      a = t(as.matrix(a))
+      LRset = a[,c("L2", "R2")]
+      LRset = t(as.matrix(LRset))
+    } else {
+      LRset = unique(a[,c("L2", "R2")])
+    }
+    
     for (i in 1:nrow(A)) {
       idx = which(LRset[,'L2']==A[i,'L2'] & LRset[,'R2']==A[i,'R2'])
       A[i,condlong] = as.numeric(A[i,condlong])*(length(idx)>0)

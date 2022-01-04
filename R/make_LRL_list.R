@@ -12,7 +12,7 @@
 #'  p_A_a[[L1->L2 & L2->L1]]: (L2-R2)-(L1-R1) pairs that regulate each other, identified based on ligand_target_matrix_binary_ct1 and ligand_target_matrix_binary_ct2  
 #'  p_A_a[[R1->L2 & R2->L1]]: (L2-R2)-(L1-R1) pairs that regulate each other, identified based on receptor_target_matrix_binary_ct1 and receptor_target_matrix_binary_ct2  
 #'  p_A_a[[L1->L2 & L2->L1 & R1->L2 & R2->L1]]: (L2-R2)-(L1-R1) pairs that regulate each other, identified based on [ligand_target_matrix_binary_ct1 & receptor_target_matrix_binary_ct1] and [ligand_target_matrix_binary_ct2 & receptor_target_matrix_binary_ct2]  
-#' @import nichenetr tidyverse Seurat
+#' @import nichenetr tidyverse
 #' @export
 
 

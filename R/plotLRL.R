@@ -11,9 +11,8 @@
 #' @param edgecolor Edge color
 #' @param pheatmapcolor Value of pheatmap variable 'color'
 #' @param pheatmap_dist Value of pheatmap variables 'clustering_distance_rows' and 'clustering_distance_cols'. e.g. 'correlation', 'euclidean'
-#' @import nichenetr tidyverse Seurat circlize igraph RColorBrewer writexl pheatmap
+#' @import tidyverse Seurat circlize igraph RColorBrewer writexl pheatmap
 #' @export
-
 
 
 plotLRL <- function(LRloop_info, WhichL1R1L2R2Score, nodecolors, labelcolor, nodesize, edgecutoff, labelsize, edgecolor, pheatmapcolor, pheatmap_dist) {

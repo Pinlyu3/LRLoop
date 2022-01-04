@@ -13,6 +13,7 @@
 #' @param discrete_error_rate: Value of the error_rate variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- FDR for cutoff_method "fdrtool" and "distribution"; number between 0 and 1 indicating which top fraction of target genes should be returned for cutoff_method "quantile".
 #' @param discrete_cutoff_method: Value of the cutoff_method variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- Method to determine which genes can be considered as a target and which genes not, based on the regulatory probability scores. Possible options: "distribution", "fdrtool" and "quantile".
 #' @param discrete_fdr_method: Value of the fdr_method variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- Only relevant when cutoff_method is "fdrtool". Possible options: "global" and "local"
+#' @param allow_feedback_delay: Default value is FALSE, in this case, when identifying LRloops, the candidate ligand-receptor pairs L1-R1 and L2-R2 are limited to the ones that are simultaneously expressed in some condition;  If TRUE, L1-R1 and L2-R2 expressed in different conditions are allowed to form an LRloop.  
 #' @return
 #'  Basics: A list with the following elements:
 #'  Basics$ave_expr_ct1: A matrix of average gene expression values (LogNormalized) in each condition in cell type1.  Gene symbols in rows, conditions in columns
@@ -36,25 +37,24 @@
 #'  Basics$myLRL: List of identified LRLoops:
 #'  Basics$myLRL$R1->L2_R2->L1: Matrix of LRLoops with columns "L1", "R1", "L2" and "R2" where L1-R1 are candidate ligand-receptor pairs from cell type1 to cell type2, L2-R2 are candidate ligand-receptor pairs from cell type2 to cell type1; L2 is a top target of R1, L1 is a top target of R2
 #'  Basics$myLRL$L1->L2_L2->L1: Matrix of LRLoops with columns "L1", "R1", "L2" and "R2" where L1-R1 are candidate ligand-receptor pairs from cell type1 to cell type2, L2-R2 are candidate ligand-receptor pairs from cell type2 to cell type1; L2 is a top target of L1, L1 is a top target of L2
-#'
+#'  Basics$myLRL$eachcondition: LRLoop networks in each condition
+#'  Basics$allLRL: List of LRLoops composed of all expressed ligand-receptor pairs.
 #'
 #' @import nichenetr tidyverse Seurat
 #' @export
 
 
+
 PrepareBasics <- function(ct1obj, ct2obj, min_pct, geneset_ct1, geneset_ct2,
-                          lr_network, ligand_target_matrix_ct1_to_ct2, receptor_target_matrix_ct1_to_ct2, ligand_target_matrix_ct2_to_ct1, receptor_target_matrix_ct2_to_ct1,discrete_error_rate, discrete_cutoff_method, discrete_fdr_method) {
-  ######
-  library(Seurat)
-  library(Matrix)
+                          lr_network, ligand_target_matrix_ct1_to_ct2, receptor_target_matrix_ct1_to_ct2, ligand_target_matrix_ct2_to_ct1, receptor_target_matrix_ct2_to_ct1,
+                          discrete_error_rate, discrete_cutoff_method, discrete_fdr_method, allow_feedback_delay = FALSE) {
   
-  ######
   conditions = as.vector(unique(ct1obj@meta.data[,'Condition']))
   
   ### Expression data (LogNormalized)
   data_ct1 = ct1obj@assays$RNA@data
   data_ct2 = ct2obj@assays$RNA@data
-  print('0')
+  
   ### Average gene expression values in each condition 
   ave_expr_ct1 = log1p(AverageExpression(ct1obj, group.by = 'Condition')$RNA)
   ave_expr_ct2 = log1p(AverageExpression(ct2obj, group.by = 'Condition')$RNA)
@@ -67,12 +67,10 @@ PrepareBasics <- function(ct1obj, ct2obj, min_pct, geneset_ct1, geneset_ct2,
   }
   
   ### Gene detection rates
-  print('1')
   pct_expr_ct1 = get_pct_expr(ct1obj, conditions)
   pct_expr_ct2 = get_pct_expr(ct2obj, conditions)
   
   ### Identify the "expressed" genes with a detection rate greater than a particular threshold
-  print('2')
   thresh_expr_ct1 = (pct_expr_ct1 > min_pct)*1
   thresh_expr_ct2 = (pct_expr_ct2 > min_pct)*1
   genes_thresh_expr_ct1 = rownames(thresh_expr_ct1)[rowSums(thresh_expr_ct1)>0]
@@ -151,21 +149,25 @@ PrepareBasics <- function(ct1obj, ct2obj, min_pct, geneset_ct1, geneset_ct2,
                   ligand_target_matrix_binary_ct2_to_ct1, ligand_target_matrix_binary_ct1_to_ct2, 
                   receptor_target_matrix_binary_ct2_to_ct1, receptor_target_matrix_binary_ct1_to_ct2)
   
+  if (allow_feedback_delay == TRUE) {
+    myLRL = myLRL$`withdelay`
+  }
   
-  
+  allLRL = myLRL$`withdelay`
   
   ### Collect basics 
   Basics = list(ave_expr_ct1, ave_expr_ct2, pct_expr_ct1, pct_expr_ct2, thresh_expr_ct1, thresh_expr_ct2, genes_thresh_expr_ct1, genes_thresh_expr_ct2,
                 lr_expr_ct1_to_ct2, lr_expr_ct2_to_ct1,
                 ligand_activities_matrix_ct1_to_ct2, receptor_activities_matrix_ct1_to_ct2, 
                 ligand_activities_matrix_ct2_to_ct1, receptor_activities_matrix_ct2_to_ct1,
-                myLRL)
+                myLRL, allLRL)
   names(Basics) = c("ave_expr_ct1", "ave_expr_ct2", "pct_expr_ct1", "pct_expr_ct2", 
                     "thresh_expr_ct1", "thresh_expr_ct2", "genes_thresh_expr_ct1", "genes_thresh_expr_ct2",
                     "lr_expr_ct1_to_ct2", "lr_expr_ct2_to_ct1",
                     "ligand_activities_matrix_ct1_to_ct2", "receptor_activities_matrix_ct1_to_ct2", 
                     "ligand_activities_matrix_ct2_to_ct1", "receptor_activities_matrix_ct2_to_ct1",
-                    "myLRL")
+                    "myLRL", "allLRL")
+  
   return(Basics)
   
 }

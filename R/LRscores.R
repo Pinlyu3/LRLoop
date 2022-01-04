@@ -7,7 +7,7 @@
 #' @param method The method of calculating the LRscore, available options are 'mean', 'individual_scale', 'individual_scale_exp', 'product', 'bias_receptor' and 'scsigr'. The method 'scsigr' was introduced in SingleCellSignalR.
 #' @return
 #'  The LRscore of an L-R pair
-#' @import nichenetr tidyverse Seurat
+#' @import tidyverse
 #' @export
 
 LRscore = function(L, R, m, method) {
@@ -26,6 +26,7 @@ LRscore = function(L, R, m, method) {
   } else {
     stop("Invalid method")
   }
+  
   return(LR)
 }
 

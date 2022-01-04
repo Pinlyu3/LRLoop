@@ -9,10 +9,6 @@
 #' @export
 
 
-
-
-
-
 make_discrete_ligand_target_matrix_general <- function(ligands, receptor_target_matrix_binary, lr_network) {
   
   ligand_target_matrix_general_binary = matrix(0, nrow = nrow(receptor_target_matrix_binary), ncol = length(ligands))

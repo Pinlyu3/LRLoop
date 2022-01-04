@@ -2,10 +2,8 @@
 #'
 #' @name print_LRL_Score_options
 #' @param LRloop_info The list of the LRloop_network info calculated by function "LRL_info_collection"
-#' @import nichenetr tidyverse Seurat
+#' @import tidyverse
 #' @export
-
-
 
 
 print_LRL_Score_options <- function(LRloop_info) {

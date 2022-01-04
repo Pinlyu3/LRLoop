@@ -5,7 +5,6 @@
 #' @export
 
 
-
 LRL_stats <- function(LRL_list) {
   slots = names(LRL_list)[2:length(names(LRL_list))]
   p_A_a_list_stats = matrix(0, nrow = length(slots), ncol = 15)
