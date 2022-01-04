@@ -11,7 +11,8 @@ get_DEG(
   only_pos,
   min_pct,
   logfc_threshold,
-  p_val_adj_threshold
+  p_val_adj_threshold,
+  test_use
 )
 }
 \arguments{
@@ -21,13 +22,15 @@ get_DEG(
 
 \item{idents_2}{vectors of idents}
 
-\item{only_pos}{TRUE or FALSE}
+\item{only_pos}{TRUE or FALSE, indicates whether return positive markers only in each condition in idents_1 compared to each condition in idents_2.}
 
-\item{min_pct}{a number between 0 and 1}
+\item{min_pct}{a number between 0 and 1. Only test genes that are detected in a minimum fraction of min.pct cells in either of the two populations under comparison.}
 
 \item{logfc_threshold}{a positive number}
 
 \item{p_val_adj_threshold}{a number between 0 and 1}
+
+\item{test_use}{Denotes which test to use.  Available options are "wilcox", "bimod", "roc", "t", "negbinom", "poisson", "LR", "MAST" and "DESeq2".}
 }
 \value{
 DEGinfo: a list of two entries:

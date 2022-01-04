@@ -19,7 +19,7 @@ L1R1L2R2Score(L1, R1, L2, R2, m, LRscore, LoopScore)
 
 \item{LRscore}{The method of calculating the LR scores, available options are 'mean', 'individual_scale', 'individual_scale_exp', 'product', 'bias_receptor' and 'scsigr'}
 
-\item{LoopScore}{The method of calculating the LRloop score, available options are "ave_geo" and "ave_alg"}
+\item{LoopScore}{The method of calculating the LRloop score, available options are "ave_geo" and "ave_ari"}
 }
 \value{
 The LRloop score of a L1-R1_L2-R2 pair

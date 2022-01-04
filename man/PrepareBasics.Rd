@@ -17,7 +17,8 @@ PrepareBasics(
   receptor_target_matrix_ct2_to_ct1,
   discrete_error_rate,
   discrete_cutoff_method,
-  discrete_fdr_method
+  discrete_fdr_method,
+  allow_feedback_delay = FALSE
 )
 }
 \arguments{
@@ -46,6 +47,8 @@ PrepareBasics(
 \item{discrete_cutoff_method:}{Value of the cutoff_method variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- Method to determine which genes can be considered as a target and which genes not, based on the regulatory probability scores. Possible options: "distribution", "fdrtool" and "quantile".}
 
 \item{discrete_fdr_method:}{Value of the fdr_method variable of the nichenetr package function "make_discrete_ligand_target_matrix" -- Only relevant when cutoff_method is "fdrtool". Possible options: "global" and "local"}
+
+\item{allow_feedback_delay:}{Default value is FALSE, in this case, when identifying LRloops, the candidate ligand-receptor pairs L1-R1 and L2-R2 are limited to the ones that are simultaneously expressed in some condition;  If TRUE, L1-R1 and L2-R2 expressed in different conditions are allowed to form an LRloop.}
 }
 \value{
 Basics: A list with the following elements:
@@ -70,6 +73,8 @@ Basics: A list with the following elements:
  Basics$myLRL: List of identified LRLoops:
  Basics$myLRL$R1->L2_R2->L1: Matrix of LRLoops with columns "L1", "R1", "L2" and "R2" where L1-R1 are candidate ligand-receptor pairs from cell type1 to cell type2, L2-R2 are candidate ligand-receptor pairs from cell type2 to cell type1; L2 is a top target of R1, L1 is a top target of R2
  Basics$myLRL$L1->L2_L2->L1: Matrix of LRLoops with columns "L1", "R1", "L2" and "R2" where L1-R1 are candidate ligand-receptor pairs from cell type1 to cell type2, L2-R2 are candidate ligand-receptor pairs from cell type2 to cell type1; L2 is a top target of L1, L1 is a top target of L2
+ Basics$myLRL$eachcondition: LRLoop networks in each condition
+ Basics$allLRL: List of LRLoops composed of all expressed ligand-receptor pairs.
 }
 \description{
 Get a list of some basic data info
