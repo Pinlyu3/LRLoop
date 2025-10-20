@@ -1,4 +1,4 @@
-# LRLoop
+# LRLoop v1.0
  [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing) [![example event parameter](https://github.com/Pinlyu3/LRLoop/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Pinlyu3/LRLoop/actions/workflows/R-CMD-check.yaml)
 
 
